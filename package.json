@@ -1,15 +1,23 @@
 {
-  "name": "hello-vue",
-  "version": "0.1.0",
+  "name": "electric-fan",
+  "version": "1.0.0",
+  "description": "Electric Fan",
+  "author": "YunYouJun <me@yunyoujun.cn>",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "element-theme-ink": "^1.0.0",
+    "element-ui": "^2.4.11",
     "register-service-worker": "^1.5.2",
-    "vue": "^2.5.21"
+    "v-tooltip": "^2.0.0-rc.33",
+    "vue": "^2.5.21",
+    "vue-about-me": "^0.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
@@ -19,6 +27,8 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"
   }
 }

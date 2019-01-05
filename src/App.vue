@@ -1,17 +1,36 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h3 v-tooltip="description">{{ title }}</h3>
+
+    <fan></fan>
+
+    <div class="footer">
+      <vue-about-me :copyright="copyright"></vue-about-me>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Fan from './components/Fan.vue'
+import VueAboutMe from 'vue-about-me'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      title: '夏日清凉小风扇~',
+      description: '除了没有风，什么都好！',
+      copyright: {
+        name: 'Electric Fan',
+        repoName: 'electric-fan',
+        author: 'YunYouJun',
+        logo: '#icon-cloud'
+      }
+    }
+  },
   components: {
-    HelloWorld
+    Fan,
+    VueAboutMe
   }
 }
 </script>
@@ -24,5 +43,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#app > .footer {
+  margin-top: 500px;
 }
 </style>
