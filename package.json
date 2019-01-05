@@ -12,7 +12,6 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "element-theme-ink": "^1.0.0",
     "element-ui": "^2.4.11",
     "register-service-worker": "^1.5.2",
     "v-tooltip": "^2.0.0-rc.33",
@@ -27,6 +26,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "gh-pages": "^2.0.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"

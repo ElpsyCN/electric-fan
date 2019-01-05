@@ -1,7 +1,7 @@
 <template>
   <div id="fan">
     <div class="header">
-      <div :class="leafs">
+      <div :key="count" :class="leafs">
         <div class="circle"></div>
         <div class="leaf-1"></div>
         <div class="leaf-2"></div>
@@ -23,6 +23,9 @@
 export default {
   data () {
     return {
+      audioElm: '',
+      srcUrl: '../audio/fan.wav',
+      stopFlag: false,
       switchItems: [
         { name: '关', class: 'switch_0', value: 0 },
         { name: '1', class: 'switch_1', value: 1 },
@@ -30,12 +33,56 @@ export default {
         { name: '3', class: 'switch_3', value: 3 }
       ],
       leafs: 'leafs',
-      radio: 0
+      radio: 0,
+      count: 0
     }
   },
+  beforeMount() {
+    this.initAudioElm();
+  },
   methods: {
+    initAudioElm () {
+      let audio = new Audio();
+      audio.preload = 'metadata';
+      audio.src = this.srcUrl;
+      this.audioElm = audio;
+    },
     radioChange (val) {
       this.leafs = 'leafs-' + val
+      this.count += 1
+      switch (val) {
+        case 0:
+          this.playSwitchAudio()
+          break
+        default:
+          this.stopFlag = false
+          if (!this.audioElm.ended) {
+            this.playFanAudio()
+          } else {
+            this.playFanAudio(0)
+          }
+          break
+      }
+    },
+    playSwitchAudio () {
+      if (!this.audioElm.ended) {
+        this.stopAudio()
+      }
+    },
+    playFanAudio (currentTime=3.5) {
+      if (!this.stopFlag) {
+        this.audioElm.currentTime = currentTime
+        this.audioElm.play()
+        let _this = this
+        let delayTime = this.audioElm.duration - this.audioElm.currentTime - 1
+        setTimeout(function() {
+          _this.playFanAudio()
+        }, delayTime*1000)
+      }
+    },
+    stopAudio () {
+      this.audioElm.currentTime = 6
+      this.stopFlag = true
     }
   }
 }
@@ -68,7 +115,7 @@ $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
 		transform: rotate(0deg);
 	}
 	100%{
-		transform: rotate(360deg);
+		transform: rotate(1080deg);
 	}
 }
 
@@ -129,23 +176,23 @@ $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
 		}
     .leafs-0 {
       @extend .leafs;
-      animation-duration: 5s;
+      animation-duration: 3s;
       animation-timing-function: ease-out;
-      animation-delay: 0.1s;
+      animation-delay: 0s;
       animation-iteration-count: 1;
       animation-fill-mode: forwards;
     }
     .leafs-1 {
       @extend .leafs;
-      animation-duration: 0.8s;
+      animation-duration: 2s;
     }
     .leafs-2 {
       @extend .leafs;
-      animation-duration: 0.4s;
+      animation-duration: 1.5s;
     }
     .leafs-3 {
       @extend .leafs;
-      animation-duration: 0.2s;
+      animation-duration: 0.8s;
     }
 	}
 	.neck{
@@ -161,7 +208,6 @@ $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
 		width: $footer-width;
 		height: $footer-height;
 		border-radius: 5%;
-		// border: 2px solid $border-color;
 		background: $background-color;
 		position: absolute;
 		top: $header-width + $neck-height -2;

@@ -2,16 +2,11 @@
 
 > Electric Fan
 
-一个智障小程序
+一个智障小工具
 
 电风扇！ 为你的夏日带去清凉！
 
-- [Web Demo](http://github.yunyoujun.cn/electric-fan/)
-- 微信小程序(这么智障，怎么可能审核通过！2333)
-
-## Base
-
-- [mpvue](https://github.com/Meituan-Dianping/mpvue)
+- [Web Demo](https://github.yunyoujun.cn/electric-fan/)
 
 ## Intend
 
@@ -20,7 +15,7 @@
 
 ## Change Log
 
-- 2019-01-05 remove miniprogram
+- 2019-01-05 remove miniprogram & add fan sound effect
 
 ## Project setup
 
