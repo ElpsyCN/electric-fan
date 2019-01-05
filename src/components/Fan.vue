@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       audioElm: '',
-      srcUrl: '../audio/fan.wav',
+      srcUrl: require('../assets/audio/fan.wav'),
       stopFlag: false,
       switchItems: [
         { name: '关', class: 'switch_0', value: 0 },
@@ -38,14 +38,15 @@ export default {
     }
   },
   beforeMount() {
-    this.initAudioElm();
+    this.initAudioElm()
   },
   methods: {
     initAudioElm () {
-      let audio = new Audio();
-      audio.preload = 'metadata';
-      audio.src = this.srcUrl;
-      this.audioElm = audio;
+      let audio = new Audio()
+      audio.preload = 'metadata'
+      audio.src = this.srcUrl
+      audio.load()
+      this.audioElm = audio
     },
     radioChange (val) {
       this.leafs = 'leafs-' + val
@@ -56,10 +57,10 @@ export default {
           break
         default:
           this.stopFlag = false
-          if (!this.audioElm.ended) {
-            this.playFanAudio()
-          } else {
+          if (this.audioElm.currentTime === 0 || this.audioElm.currentTime === this.audioElm.duration) {
             this.playFanAudio(0)
+          } else {
+            this.playFanAudio()
           }
           break
       }
