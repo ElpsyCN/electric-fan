@@ -12,23 +12,23 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "element-ui": "^2.4.11",
+    "element-ui": "^2.5.4",
     "register-service-worker": "^1.5.2",
     "v-tooltip": "^2.0.0-rc.33",
-    "vue": "^2.5.21",
-    "vue-about-me": "^0.1.0"
+    "vue": "^2.6.3",
+    "vue-about-me": "^0.2.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.2.0",
-    "@vue/cli-plugin-eslint": "^3.2.0",
-    "@vue/cli-plugin-pwa": "^3.2.0",
-    "@vue/cli-service": "^3.2.0",
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-plugin-pwa": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.8.0",
+    "eslint": "^5.13.0",
     "eslint-plugin-vue": "^5.0.0",
     "gh-pages": "^2.0.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.3"
   }
 }
