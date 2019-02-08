@@ -6,7 +6,7 @@
 
 电风扇！ 为你的夏日带去清凉！
 
-- [Web Demo](https://github.yunyoujun.cn/electric-fan/)
+- [Web Demo](https://yunyoujun.github.io/electric-fan/)
 
 ## Intend
 
