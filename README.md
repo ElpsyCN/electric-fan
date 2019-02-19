@@ -2,6 +2,8 @@
 
 > Electric Fan
 
+[未来道具研究所](https://elpsy.cn)
+
 一个智障小工具
 
 电风扇！ 为你的夏日带去清凉！
@@ -13,9 +15,7 @@
 - 音效
 - 调档
 
-## Change Log
-
-- 2019-01-05 remove miniprogram & add fan sound effect
+## [Change Log](CHANGELOG.md)
 
 ## Project setup
 
