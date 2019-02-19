@@ -1,6 +1,6 @@
 # electric-fan
 
-> Electric Fan
+> [Electric Fan](https://fan.elpsy.cn)
 
 [未来道具研究所](https://elpsy.cn)
 
@@ -8,7 +8,7 @@
 
 电风扇！ 为你的夏日带去清凉！
 
-- [Web Demo](https://yunyoujun.github.io/electric-fan/)
+- [Web Demo](https://fan.elpsy.cn)
 
 ## Intend
 
