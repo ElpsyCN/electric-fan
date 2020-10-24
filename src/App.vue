@@ -11,33 +11,34 @@
 </template>
 
 <script>
-import Fan from './components/Fan.vue'
-import VueAboutMe from 'vue-about-me'
+import Fan from "./components/Fan.vue";
+import VueAboutMe from "vue-about-me";
 
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  data() {
     return {
-      title: '夏日清凉小风扇~',
-      description: '除了没有风，什么都好！',
+      title: "夏日清凉小风扇~",
+      description: "除了没有风，什么都好！",
       copyright: {
-        name: 'Electric Fan',
-        repoName: 'electric-fan',
-        author: 'YunYouJun',
-        logo: '#icon-cloud'
-      }
-    }
+        name: "Electric Fan",
+        repo: "electric-fan",
+        author: "YunYouJun",
+        logo: "#icon-cloud-line",
+        link: "https://fan.elpsy.cn/",
+      },
+    };
   },
   components: {
     Fan,
-    VueAboutMe
-  }
-}
+    VueAboutMe,
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

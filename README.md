@@ -12,8 +12,8 @@
 
 ## Intend
 
-- 音效
-- 调档
+- [ ] 空调
+- [ ] 温度计 🌡️
 
 ## [Change Log](CHANGELOG.md)
 
