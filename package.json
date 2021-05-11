@@ -18,13 +18,13 @@
     "vue-about-me": "^1.0.0-alpha.5"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.6.5",
     "@vitejs/plugin-vue": "^1.2.2",
     "eslint": "^7.26.0",
     "sass": "^1.27.0",
     "typescript": "^4.2.4",
-    "vite": "^2.2.4",
+    "vite": "^2.3.0",
     "vite-plugin-pwa": "^0.7.3",
-    "vite-plugin-style-import": "^0.10.0"
+    "vite-plugin-style-import": "^0.10.0",
+    "vue-gtag": "^2.0.0"
   }
 }
