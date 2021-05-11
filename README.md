@@ -31,28 +31,28 @@
 - [x] [空调](https://github.com/YunYouJun/air-conditioner)
 - [ ] 温度计 🌡️
 
+## About
+
+![清凉一夏](https://upyun.yunyoujun.cn/images/eat-watermelon-qrcode.jpg)
+
+![你想用钱来收买我吗？这是对我的侮辱！我本想这样大声呵斥他，但钱实在是太多了](https://upyun.yunyoujun.cn/images/money-is-too-much.jpg)
+
 ## [Change Log](CHANGELOG.md)
 
-## Project setup
+## Dev 开发
 
 ```sh
-yarn install
+# install dependencies
+yarn
 ```
 
-### Compiles and hot-reloads for development
-
 ```sh
-yarn run serve
+# 启动
+# http://localhost:3000/
+yarn dev
 ```
 
-### Compiles and minifies for production
-
 ```sh
-yarn run build
-```
-
-### Lints and fixes files
-
-```sh
-yarn run lint
+# 构建
+yarn build
 ```

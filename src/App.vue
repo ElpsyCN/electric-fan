@@ -1,10 +1,23 @@
 <template>
   <div id="app">
-    <h3 :title="description">{{ title }}</h3>
+    <h3 :title="description">
+      {{ title }}
+      <br />
+      <small>
+        {{ description }}
+      </small>
+    </h3>
 
     <fan></fan>
 
     <div class="footer">
+      <div style="margin: 1rem">
+        <el-button>
+          <a :href="adImageLink" target="_blank"
+            ><span class="animate-logo">{{ adText }}</span></a
+          >
+        </el-button>
+      </div>
       <vue-about-me :copyright="copyright"></vue-about-me>
     </div>
   </div>
@@ -15,19 +28,25 @@ import Fan from "./components/Fan.vue";
 import VueAboutMe from "vue-about-me/sfc";
 import { defineComponent } from "@vue/runtime-core";
 
+const adImageLink =
+  "https://upyun.yunyoujun.cn/images/eat-watermelon-qrcode.jpg";
+
 export default defineComponent({
   name: "app",
   data() {
     return {
-      title: "夏日清凉小风扇~",
+      title: "夏日清凉小风扇",
       description: "除了没有风，什么都好！",
       copyright: {
         name: "Electric Fan",
         repo: "electric-fan",
         author: "YunYouJun",
-        logo: "ri:cloud-line",
-        link: "https://fan.elpsy.cn/",
+        logo: "emojione:watermelon",
+        link: adImageLink,
       },
+
+      adText: "🍉",
+      adImageLink,
     };
   },
   components: {
@@ -37,7 +56,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -48,6 +67,6 @@ export default defineComponent({
 }
 
 #app > .footer {
-  margin-top: 500px;
+  margin-top: 460px;
 }
 </style>
