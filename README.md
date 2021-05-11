@@ -10,9 +10,25 @@
 
 - [Web Demo](https://fan.elpsy.cn)
 
+## Feature
+
+### 优势
+
+- 随时随地打开风扇
+- 便携
+- 低功耗（使用 HTML CSS 而非 Canvas 绘制）
+- 操作简单
+- 安装便捷
+
+### 劣势
+
+- 没有风
+
 ## Intend
 
-- [ ] 空调
+……这是我在小空调之前写的，因为写的太丑甚至没好意思宣传，没想到小空调意外的火了。
+
+- [x] [空调](https://github.com/YunYouJun/air-conditioner)
 - [ ] 温度计 🌡️
 
 ## [Change Log](CHANGELOG.md)

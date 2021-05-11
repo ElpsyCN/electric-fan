@@ -13,7 +13,14 @@
 
     <div class="switch-btn-group">
       <el-radio-group v-model="radio" @change="radioChange">
-        <el-radio-button v-for="(item, index) in switchItems" :key="index" :class="item.class" v-model="item.value" :label="item.value">{{ item.name }}</el-radio-button>
+        <el-radio-button
+          v-for="(item, index) in switchItems"
+          :key="index"
+          :class="item.class"
+          v-model="item.value"
+          :label="item.value"
+          >{{ item.name }}</el-radio-button
+        >
       </el-radio-group>
     </div>
   </div>
@@ -21,72 +28,74 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      audioElm: '',
-      srcUrl: require('../assets/audio/fan.wav'),
+      audioElm: "",
       stopFlag: false,
       switchItems: [
-        { name: '关', class: 'switch_0', value: 0 },
-        { name: '1', class: 'switch_1', value: 1 },
-        { name: '2', class: 'switch_2', value: 2 },
-        { name: '3', class: 'switch_3', value: 3 }
+        { name: "关", class: "switch_0", value: 0 },
+        { name: "1", class: "switch_1", value: 1 },
+        { name: "2", class: "switch_2", value: 2 },
+        { name: "3", class: "switch_3", value: 3 },
       ],
-      leafs: 'leafs',
+      leafs: "leafs",
       radio: 0,
-      count: 0
-    }
+      count: 0,
+    };
   },
-  beforeMount () {
-    this.initAudioElm()
+  beforeMount() {
+    this.initAudioElm();
   },
   methods: {
-    initAudioElm () {
-      let audio = new Audio()
-      audio.preload = 'metadata'
-      audio.src = this.srcUrl
-      audio.load()
-      this.audioElm = audio
+    initAudioElm() {
+      let audio = new Audio();
+      audio.preload = "metadata";
+      audio.src = "/audio/fan.wav";
+      audio.load();
+      this.audioElm = audio;
     },
-    radioChange (val) {
-      this.leafs = 'leafs-' + val
-      this.count += 1
+    radioChange(val) {
+      this.leafs = "leafs-" + val;
+      this.count += 1;
       switch (val) {
         case 0:
-          this.playSwitchAudio()
-          break
+          this.playSwitchAudio();
+          break;
         default:
-          this.stopFlag = false
-          if (this.audioElm.currentTime === 0 || this.audioElm.currentTime === this.audioElm.duration) {
-            this.playFanAudio(0)
+          this.stopFlag = false;
+          if (
+            this.audioElm.currentTime === 0 ||
+            this.audioElm.currentTime === this.audioElm.duration
+          ) {
+            this.playFanAudio(0);
           } else {
-            this.playFanAudio()
+            this.playFanAudio();
           }
-          break
+          break;
       }
     },
-    playSwitchAudio () {
+    playSwitchAudio() {
       if (!this.audioElm.ended) {
-        this.stopAudio()
+        this.stopAudio();
       }
     },
-    playFanAudio (currentTime = 3.5) {
+    playFanAudio(currentTime = 3.5) {
       if (!this.stopFlag) {
-        this.audioElm.currentTime = currentTime
-        this.audioElm.play()
-        let _this = this
-        let delayTime = this.audioElm.duration - this.audioElm.currentTime - 1
+        this.audioElm.currentTime = currentTime;
+        this.audioElm.play();
+        let _this = this;
+        let delayTime = this.audioElm.duration - this.audioElm.currentTime - 1;
         setTimeout(function () {
-          _this.playFanAudio()
-        }, delayTime * 1000)
+          _this.playFanAudio();
+        }, delayTime * 1000);
       }
     },
-    stopAudio () {
-      this.audioElm.currentTime = 6
-      this.stopFlag = true
-    }
-  }
-}
+    stopAudio() {
+      this.audioElm.currentTime = 6;
+      this.stopFlag = true;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -111,21 +120,21 @@ $circle-width: 15px;
 $circle-border-width: 8px;
 $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
 
-@keyframes leafsRotate{
-  0%{
+@keyframes leafsRotate {
+  0% {
     transform: rotate(0deg);
   }
-  100%{
+  100% {
     transform: rotate(1080deg);
   }
 }
 
-#fan{
+#fan {
   width: $fan-width;
   margin: 50px auto;
   position: relative;
   z-index: 4;
-  .header{
+  .header {
     width: $header-width;
     height: $header-width;
     position: absolute;
@@ -135,7 +144,7 @@ $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
     z-index: 1;
     border: solid $header-border-width $border-color;
 
-    .leafs{
+    .leafs {
       z-index: 2;
       position: absolute;
       animation: leafsRotate 0s infinite linear;
@@ -168,11 +177,11 @@ $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
       }
       .leaf-2 {
         @extend .leaf;
-        transform: rotate(120deg)
+        transform: rotate(120deg);
       }
       .leaf-3 {
         @extend .leaf;
-        transform: rotate(240deg)
+        transform: rotate(240deg);
       }
     }
 
@@ -197,7 +206,7 @@ $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
       animation-duration: 0.8s;
     }
   }
-  .neck{
+  .neck {
     width: $neck-width;
     height: $neck-height;
     background: $background-color;
@@ -206,7 +215,7 @@ $circle-position: $leaf-width/2 - ($circle-width/2 + $circle-border-width);
     left: $header-width/2 - $header-border-width - $neck-width/2;
     z-index: 2;
   }
-  .footer{
+  .footer {
     width: $footer-width;
     height: $footer-height;
     border-radius: 5%;

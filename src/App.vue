@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h3 v-tooltip="description">{{ title }}</h3>
+    <h3 :title="description">{{ title }}</h3>
 
     <fan></fan>
 
@@ -10,11 +10,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Fan from "./components/Fan.vue";
-import VueAboutMe from "vue-about-me";
+import VueAboutMe from "vue-about-me/sfc";
+import { defineComponent } from "@vue/runtime-core";
 
-export default {
+export default defineComponent({
   name: "app",
   data() {
     return {
@@ -24,7 +25,7 @@ export default {
         name: "Electric Fan",
         repo: "electric-fan",
         author: "YunYouJun",
-        logo: "#icon-cloud-line",
+        logo: "ri:cloud-line",
         link: "https://fan.elpsy.cn/",
       },
     };
@@ -33,7 +34,7 @@ export default {
     Fan,
     VueAboutMe,
   },
-};
+});
 </script>
 
 <style>
