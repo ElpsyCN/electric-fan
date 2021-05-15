@@ -13,16 +13,16 @@ export default defineConfig({
           libraryName: "element-plus",
           esModule: true,
           ensureStyleFile: true,
-          resolveStyle: name => {
+          resolveStyle: (name) => {
             name = name.slice(3);
             return `element-plus/packages/theme-chalk/src/${name}.scss`;
             // return `element-theme-ink/src/${name}.scss`;
           },
-          resolveComponent: name => {
+          resolveComponent: (name) => {
             return `element-plus/lib/${name}`;
-          }
-        }
-      ]
+          },
+        },
+      ],
     }),
     VitePWA({
       registerType: "autoUpdate",
@@ -32,23 +32,23 @@ export default defineConfig({
         theme_color: "#ffffff",
         icons: [
           {
-            src: "/pwa-192x192.png",
+            src: "/img/icons/pwa-192x192.png",
             sizes: "192x192",
-            type: "image/png"
+            type: "image/png",
           },
           {
-            src: "/pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png"
-          },
-          {
-            src: "/pwa-512x512.png",
+            src: "/img/icons/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any maskable"
-          }
-        ]
-      }
-    })
-  ]
+          },
+          {
+            src: "/img/icons/pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+        ],
+      },
+    }),
+  ],
 });
