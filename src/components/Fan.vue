@@ -208,8 +208,8 @@ $circle-position: math.div($leaf-width, 2) -
         border-radius: 20% 50%;
         border: $leaf-border-width solid $border-color;
         position: absolute;
-        left: $leaf-width/2;
-        top: $leaf-width/2;
+        left: math.div($leaf-width, 2);
+        top: math.div($leaf-width, 2);
         transform-origin: 0% 0%;
       }
       .leaf-1 {
@@ -252,7 +252,8 @@ $circle-position: math.div($leaf-width, 2) -
     background: $background-color;
     position: absolute;
     top: $header-width - 1;
-    left: $header-width/2 - $header-border-width - $neck-width/2;
+    left: math.div($header-width, 2) - $header-border-width -
+      math.div($neck-width, 2);
     z-index: 2;
   }
   .footer {
@@ -262,7 +263,8 @@ $circle-position: math.div($leaf-width, 2) -
     background: $background-color;
     position: absolute;
     top: $header-width + $neck-height - 2px;
-    left: $fan-width/2 - $header-border-width - $footer-width/2;
+    left: math.div($fan-width, 2) - $header-border-width -
+      math.div($footer-width, 2);
     z-index: 3;
   }
 

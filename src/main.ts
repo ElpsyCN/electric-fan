@@ -2,9 +2,14 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import VueGtag from "vue-gtag";
 
-import { ElRadioGroup, ElRadio, ElRadioButton, ElButton } from "element-plus";
-// import "element-plus/lib/theme-chalk/index.css";
-import "element-theme-ink";
+// pwa
+import { registerSW } from "virtual:pwa-register";
+registerSW({ immediate: true });
+
+// dynamic load modules
+Object.values(import.meta.globEager("./modules/*.ts")).map((i) =>
+  i.install?.(app)
+);
 
 const app = createApp(App);
 app.use(VueGtag, {
@@ -12,8 +17,5 @@ app.use(VueGtag, {
     id: "G-FMH4WDW53W",
   },
 });
-app.use(ElButton);
-app.use(ElRadioGroup);
-app.use(ElRadio);
-app.use(ElRadioButton);
+
 app.mount("#app");

@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import styleImport from "vite-plugin-style-import";
@@ -5,6 +6,12 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      "~/": `${path.resolve(__dirname, "src")}/`,
+    },
+  },
+
   plugins: [
     vue(),
     styleImport({
@@ -24,11 +31,13 @@ export default defineConfig({
         },
       ],
     }),
+
+    // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
         name: "Electric Fan",
-        short_name: "EF",
+        short_name: "Fan",
         theme_color: "#ffffff",
         icons: [
           {
