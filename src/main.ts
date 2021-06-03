@@ -6,12 +6,13 @@ import VueGtag from "vue-gtag";
 import { registerSW } from "virtual:pwa-register";
 registerSW({ immediate: true });
 
+const app = createApp(App);
+
 // dynamic load modules
 Object.values(import.meta.globEager("./modules/*.ts")).map((i) =>
   i.install?.(app)
 );
 
-const app = createApp(App);
 app.use(VueGtag, {
   config: {
     id: "G-FMH4WDW53W",
