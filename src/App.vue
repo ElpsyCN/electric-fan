@@ -26,7 +26,7 @@
 <script lang="ts">
 import Fan from "./components/Fan.vue";
 import VueAboutMe from "vue-about-me/sfc";
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "vue";
 
 const adImageLink =
   "https://upyun.yunyoujun.cn/images/eat-watermelon-qrcode.jpg";

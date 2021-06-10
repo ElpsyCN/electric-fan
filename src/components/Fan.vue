@@ -1,6 +1,5 @@
 <template>
   <audio id="switch-audio" src="/audio/switch.mp3"></audio>
-
   <div id="fan">
     <div class="header">
       <div :key="count" :class="leafs">
@@ -21,7 +20,11 @@
           :class="item.class"
           v-model="item.value"
           :label="item.value"
-          @click="playSwitchAudio"
+          @click="
+            () => {
+              playSwitchAudio();
+            }
+          "
           >{{ item.name }}</el-radio-button
         >
       </el-radio-group>
@@ -29,114 +32,99 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "@vue/runtime-core";
+<script setup lang="ts">
+import { onBeforeMount, ref } from "vue";
 
-export default defineComponent({
-  setup() {
-    const leafs = ref("leafs");
-    const count = ref(0);
-    const stopFlag = ref(false);
-    const audioElm = ref<HTMLAudioElement | null>(null);
+const switchItems = [
+  { name: "关", class: "switch_0", value: 0 },
+  { name: "1", class: "switch_1", value: 1 },
+  { name: "2", class: "switch_2", value: 2 },
+  { name: "3", class: "switch_3", value: 3 },
+];
 
-    function initAudioElm() {
-      let audio = new Audio();
-      audio.preload = "metadata";
-      audio.src = "/audio/fan.wav";
-      audio.load();
-      audioElm.value = audio;
+const radio = ref(0);
+
+const leafs = ref("leafs");
+const count = ref(0);
+const stopFlag = ref(false);
+const audioElm = ref<HTMLAudioElement | null>(null);
+
+function initAudioElm() {
+  let audio = new Audio();
+  audio.preload = "metadata";
+  audio.src = "/audio/fan.wav";
+  audio.load();
+  audioElm.value = audio;
+}
+
+/**
+ * 停止声音
+ */
+function stopAudio() {
+  if (audioElm.value) {
+    audioElm.value.currentTime = 6;
+  }
+  stopFlag.value = true;
+}
+
+/**
+ * 播放风扇音频
+ */
+function playFanAudio(currentTime = 3.5) {
+  if (!stopFlag.value) {
+    if (!audioElm.value) {
+      return;
     }
 
-    /**
-     * 停止声音
-     */
-    function stopAudio() {
-      if (audioElm.value) {
-        audioElm.value.currentTime = 6;
+    audioElm.value.currentTime = currentTime;
+    audioElm.value.play();
+    let delayTime = audioElm.value.duration - audioElm.value.currentTime - 1;
+    setTimeout(function () {
+      playFanAudio();
+    }, delayTime * 1000);
+  }
+}
+
+function radioChange(val: number) {
+  leafs.value = "leafs-" + val;
+  count.value += 1;
+  switch (val) {
+    case 0:
+      stopAudio();
+      break;
+    default:
+      stopFlag.value = false;
+      if (!audioElm.value) {
+        return;
       }
-      stopFlag.value = true;
-    }
-
-    /**
-     * 播放风扇音频
-     */
-    function playFanAudio(currentTime = 3.5) {
-      if (!stopFlag.value) {
-        if (!audioElm.value) {
-          return;
-        }
-
-        audioElm.value.currentTime = currentTime;
-        audioElm.value.play();
-        let delayTime =
-          audioElm.value.duration - audioElm.value.currentTime - 1;
-        setTimeout(function () {
-          playFanAudio();
-        }, delayTime * 1000);
+      if (
+        audioElm.value.currentTime === 0 ||
+        audioElm.value.currentTime === audioElm.value.duration
+      ) {
+        playFanAudio(0);
+      } else {
+        playFanAudio();
       }
-    }
+      break;
+  }
+}
 
-    function radioChange(val: number) {
-      leafs.value = "leafs-" + val;
-      count.value += 1;
-      switch (val) {
-        case 0:
-          stopAudio();
-          break;
-        default:
-          stopFlag.value = false;
-          if (!audioElm.value) {
-            return;
-          }
-          if (
-            audioElm.value.currentTime === 0 ||
-            audioElm.value.currentTime === audioElm.value.duration
-          ) {
-            playFanAudio(0);
-          } else {
-            playFanAudio();
-          }
-          break;
-      }
-    }
+/**
+ * 播放切换开关音效
+ */
+function playSwitchAudio() {
+  const switchAudio = document.querySelector(
+    "#switch-audio"
+  ) as HTMLAudioElement;
+  switchAudio.play();
+}
 
-    /**
-     * 播放切换开关音效
-     */
-    function playSwitchAudio() {
-      const switchAudio = document.querySelector(
-        "#switch-audio"
-      ) as HTMLAudioElement;
-      switchAudio.play();
-    }
-
-    return {
-      count,
-      leafs,
-      audioElm,
-      initAudioElm,
-      radioChange,
-      playSwitchAudio,
-    };
-  },
-  data() {
-    return {
-      switchItems: [
-        { name: "关", class: "switch_0", value: 0 },
-        { name: "1", class: "switch_1", value: 1 },
-        { name: "2", class: "switch_2", value: 2 },
-        { name: "3", class: "switch_3", value: 3 },
-      ],
-      radio: 0,
-    };
-  },
-  beforeMount() {
-    this.initAudioElm();
-  },
+onBeforeMount(() => {
+  initAudioElm();
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use "sass:math";
 $background-color: #000;
 $border-color: #000;
