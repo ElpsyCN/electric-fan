@@ -27,7 +27,6 @@
     "sass": "^1.34.1",
     "typescript": "^4.3.2",
     "vite": "^2.3.7",
-    "vite-plugin-pwa": "^0.7.3",
     "vite-plugin-style-import": "^0.10.1",
     "vue-gtag": "^2.0.1"
   }
