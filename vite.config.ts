@@ -2,7 +2,7 @@ import path from "path";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import styleImport from "vite-plugin-style-import";
-// import { VitePWA } from "vite-plugin-pwa";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,32 +33,32 @@ export default defineConfig({
     }),
 
     // https://github.com/antfu/vite-plugin-pwa
-    // remove pwa because build bug
-    // VitePWA({
-    //   registerType: "autoUpdate",
-    //   manifest: {
-    //     name: "Electric Fan",
-    //     short_name: "Fan",
-    //     theme_color: "#ffffff",
-    //     icons: [
-    //       {
-    //         src: "/img/icons/pwa-192x192.png",
-    //         sizes: "192x192",
-    //         type: "image/png",
-    //       },
-    //       {
-    //         src: "/img/icons/pwa-512x512.png",
-    //         sizes: "512x512",
-    //         type: "image/png",
-    //       },
-    //       {
-    //         src: "/img/icons/pwa-512x512.png",
-    //         sizes: "512x512",
-    //         type: "image/png",
-    //         purpose: "any maskable",
-    //       },
-    //     ],
-    //   },
-    // }),
+    // pnpm add workbox-window to fix bug
+    VitePWA({
+      registerType: "autoUpdate",
+      manifest: {
+        name: "Electric Fan",
+        short_name: "Fan",
+        theme_color: "#ffffff",
+        icons: [
+          {
+            src: "/img/icons/pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "/img/icons/pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+          {
+            src: "/img/icons/pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+        ],
+      },
+    }),
   ],
 });
