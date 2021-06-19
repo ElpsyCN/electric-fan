@@ -12,11 +12,11 @@
 
     <div class="footer">
       <div style="margin: 1rem">
-        <el-button>
-          <a :href="adsenseLink" target="_blank">
+        <a :href="adsenseLink" target="_blank">
+          <el-button>
             <span class="animate-logo">{{ adText }}</span>
-          </a>
-        </el-button>
+          </el-button>
+        </a>
       </div>
       <vue-about-me :copyright="copyright" :links="links"></vue-about-me>
     </div>
@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import Fan from "./components/Fan.vue";
 import VueAboutMe from "vue-about-me/sfc";
-import { defineComponent } from "vue";
 
 const adsenseLink = "https://sourl.cn/bF8P37";
 
@@ -86,18 +85,3 @@ const links = [
 ];
 const adText = "🍉";
 </script>
-
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-#app > .footer {
-  margin-top: 460px;
-}
-</style>
