@@ -17,16 +17,17 @@
         <el-radio-button
           v-for="(item, index) in switchItems"
           :key="index"
-          :class="item.class"
           v-model="item.value"
+          :class="item.class"
           :label="item.value"
           @click="
             () => {
               playSwitchAudio();
             }
           "
-          >{{ item.name }}</el-radio-button
         >
+          {{ item.name }}
+        </el-radio-button>
       </el-radio-group>
     </div>
   </div>
@@ -50,7 +51,7 @@ const stopFlag = ref(false);
 const audioElm = ref<HTMLAudioElement | null>(null);
 
 function initAudioElm() {
-  let audio = new Audio();
+  const audio = new Audio();
   audio.preload = "metadata";
   audio.src = "/audio/fan.wav";
   audio.load();
@@ -78,8 +79,8 @@ function playFanAudio(currentTime = 3.5) {
 
     audioElm.value.currentTime = currentTime;
     audioElm.value.play();
-    let delayTime = audioElm.value.duration - audioElm.value.currentTime - 1;
-    setTimeout(function () {
+    const delayTime = audioElm.value.duration - audioElm.value.currentTime - 1;
+    setTimeout(function() {
       playFanAudio();
     }, delayTime * 1000);
   }
@@ -114,7 +115,7 @@ function radioChange(val: number) {
  */
 function playSwitchAudio() {
   const switchAudio = document.querySelector(
-    "#switch-audio"
+    "#switch-audio",
   ) as HTMLAudioElement;
   switchAudio.play();
 }
