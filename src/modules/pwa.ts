@@ -1,3 +1,11 @@
-// https://github.com/antfu/vite-plugin-pwa/issues/74#issuecomment-859413104
-import { registerSW } from "virtual:pwa-register";
-registerSW({ immediate: true });
+import { UserModule } from '~/types'
+
+// https://github.com/antfu/vite-plugin-pwa#automatic-reload-when-new-content-available
+export const install: UserModule = ({ isClient, router }) => {
+  if (!isClient) { return }
+
+  router.isReady().then(async() => {
+    const { registerSW } = await import('virtual:pwa-register')
+    registerSW({ immediate: true })
+  })
+}

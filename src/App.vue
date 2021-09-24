@@ -1,22 +1,15 @@
-<template>
-  <div id="app">
-    <h3 :title="description">
-      {{ title }}
-      <br />
-      <small>
-        {{ description }}
-      </small>
-    </h3>
-
-    <fan></fan>
-    <base-footer />
-  </div>
-</template>
-
 <script setup lang="ts">
-import Fan from "./components/Fan.vue";
-import BaseFooter from "./components/BaseFooter.vue";
-
-const title = "夏日清凉小风扇";
-const description = "除了没有风，什么都好！";
+// https://github.com/vueuse/head
+// you can use this to manipulate the document head in any components,
+// they will be rendered correctly in the html results with vite-ssg
+useHead({
+  title: 'Electric Fan',
+  meta: [
+    { name: 'description', content: '夏日小风扇，为你的夏日带去清凉～' },
+  ],
+})
 </script>
+
+<template>
+  <router-view />
+</template>

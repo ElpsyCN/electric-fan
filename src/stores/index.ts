@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive } from 'vue'
 export const store = {
   debug: true,
 
@@ -10,6 +10,6 @@ export const store = {
   }),
 
   setLevel(value: number) {
-    this.state.level = value;
+    this.state.level = value
   },
-};
+}

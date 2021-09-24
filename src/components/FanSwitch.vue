@@ -19,51 +19,51 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
-import { store } from "~/store";
+import { onBeforeMount, ref } from 'vue'
+import { store } from '~/stores'
 
-let stopFlag = false;
+let stopFlag = false
 
 const switchItems = [
-  { name: "关", class: "switch_0", value: 0 },
-  { name: "1", class: "switch_1", value: 1 },
-  { name: "2", class: "switch_2", value: 2 },
-  { name: "3", class: "switch_3", value: 3 },
-];
+  { name: '关', class: 'switch_0', value: 0 },
+  { name: '1', class: 'switch_1', value: 1 },
+  { name: '2', class: 'switch_2', value: 2 },
+  { name: '3', class: 'switch_3', value: 3 },
+]
 
-const audioElm = ref<HTMLAudioElement | null>(null);
+const audioElm = ref<HTMLAudioElement | null>(null)
 
 function initAudioElm() {
-  const audio = new Audio();
-  audio.preload = "metadata";
-  audio.src = "/audio/fan.wav";
-  audio.load();
-  audioElm.value = audio;
+  const audio = new Audio()
+  audio.preload = 'metadata'
+  audio.src = '/audio/fan.wav'
+  audio.load()
+  audioElm.value = audio
 }
 
 onBeforeMount(() => {
-  initAudioElm();
-});
+  initAudioElm()
+})
 
 function radioChange(val: number) {
   switch (val) {
     case 0:
-      stopAudio();
-      break;
+      stopAudio()
+      break
     default:
-      stopFlag = false;
+      stopFlag = false
       if (!audioElm.value) {
-        return;
+        return
       }
       if (
         audioElm.value.currentTime === 0 ||
         audioElm.value.currentTime === audioElm.value.duration
       ) {
-        playFanAudio(0);
+        playFanAudio(0)
       } else {
-        playFanAudio();
+        playFanAudio()
       }
-      break;
+      break
   }
 }
 
@@ -72,9 +72,9 @@ function radioChange(val: number) {
  */
 function playSwitchAudio() {
   const switchAudio = document.querySelector(
-    "#switch-audio",
-  ) as HTMLAudioElement;
-  switchAudio.play();
+    '#switch-audio',
+  ) as HTMLAudioElement
+  switchAudio.play()
 }
 
 /**
@@ -82,9 +82,9 @@ function playSwitchAudio() {
  */
 function stopAudio() {
   if (audioElm.value) {
-    audioElm.value.currentTime = 6;
+    audioElm.value.currentTime = 6
   }
-  stopFlag = true;
+  stopFlag = true
 }
 
 /**
@@ -93,15 +93,15 @@ function stopAudio() {
 function playFanAudio(currentTime = 3.5) {
   if (!stopFlag) {
     if (!audioElm.value) {
-      return;
+      return
     }
 
-    audioElm.value.currentTime = currentTime;
-    audioElm.value.play();
-    const delayTime = audioElm.value.duration - audioElm.value.currentTime - 1;
+    audioElm.value.currentTime = currentTime
+    audioElm.value.play()
+    const delayTime = audioElm.value.duration - audioElm.value.currentTime - 1
     setTimeout(function() {
-      playFanAudio();
-    }, delayTime * 1000);
+      playFanAudio()
+    }, delayTime * 1000)
   }
 }
 </script>

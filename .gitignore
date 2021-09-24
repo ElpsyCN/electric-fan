@@ -1,3 +1,9 @@
+# vitesse
+.vite-ssg-dist
+.vite-ssg-temp
+components.d.ts
+auto-imports.d.ts
+
 yarn.lock
 package-lock.json
 pnpm-lock.yaml
@@ -17,7 +23,6 @@ yarn-error.log*
 
 # Editor directories and files
 .idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
