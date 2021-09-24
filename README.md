@@ -33,10 +33,7 @@
 
 ## About
 
-<p align="center">
-<img src="https://upyun.yunyoujun.cn/images/eat-watermelon-qrcode.jpg" width="400" alt="清凉一夏">
-<img src="https://upyun.yunyoujun.cn/images/money-is-too-much.jpg" alt="你想用钱来收买我吗？这是对我的侮辱！我本想这样大声呵斥他，但钱实在是太多了" width="500">
-<p>
+![云游君](https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/about/white-qrcode-and-search.jpg)
 
 ## [Change Log](CHANGELOG.md)
 
