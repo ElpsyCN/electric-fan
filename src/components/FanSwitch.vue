@@ -1,28 +1,29 @@
 <template>
-  <audio id="switch-audio" src="/audio/switch.mp3"></audio>
-  <el-radio-group v-model="store.state.level" @change="radioChange">
-    <el-radio-button
-      v-for="(item, index) in switchItems"
-      :key="index"
-      v-model="item.value"
-      :class="item.class"
-      :label="item.value"
-      @click="
-        () => {
-          playSwitchAudio();
-        }
-      "
-    >
-      {{ item.name }}
-    </el-radio-button>
-  </el-radio-group>
+  <audio ref="switchAudioEl" id="switch-audio" src="/audio/switch.mp3"></audio>
+  <audio ref="audioEl" preload="metadata" id="switch-audio" src="/audio/fan.wav"></audio>
+  <button
+    v-for="(item, index) in switchItems"
+    :key="index"
+    class="fan-btn"
+    :class="[item.class, item.value === state.level.value ? 'is-active' : '']"
+    :label="item.name"
+    @click="
+      () => {
+        radioChange(item.value);
+        playSwitchAudio();
+      }
+    "
+  >
+    {{ item.name }}
+  </button>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
 import { store } from '~/stores'
 
-let stopFlag = false
+const stopFlag = ref(false)
+const state = toRefs(store.state)
 
 const switchItems = [
   { name: '关', class: 'switch_0', value: 0 },
@@ -31,33 +32,24 @@ const switchItems = [
   { name: '3', class: 'switch_3', value: 3 },
 ]
 
-const audioElm = ref<HTMLAudioElement | null>(null)
+const audioEl = ref<HTMLAudioElement>()
+const switchAudioEl = ref<HTMLAudioElement>()
 
-function initAudioElm() {
-  const audio = new Audio()
-  audio.preload = 'metadata'
-  audio.src = '/audio/fan.wav'
-  audio.load()
-  audioElm.value = audio
-}
+function radioChange(level: number) {
+  store.state.level = level
 
-onBeforeMount(() => {
-  initAudioElm()
-})
-
-function radioChange(val: number) {
-  switch (val) {
+  switch (level) {
     case 0:
       stopAudio()
       break
     default:
-      stopFlag = false
-      if (!audioElm.value) {
+      stopFlag.value = false
+      if (!audioEl.value) {
         return
       }
       if (
-        audioElm.value.currentTime === 0 ||
-        audioElm.value.currentTime === audioElm.value.duration
+        audioEl.value.currentTime === 0 ||
+        audioEl.value.currentTime === audioEl.value.duration
       ) {
         playFanAudio(0)
       } else {
@@ -71,34 +63,32 @@ function radioChange(val: number) {
  * 播放切换开关音效
  */
 function playSwitchAudio() {
-  const switchAudio = document.querySelector(
-    '#switch-audio',
-  ) as HTMLAudioElement
-  switchAudio.play()
+  if (switchAudioEl.value)
+    switchAudioEl.value.play()
 }
 
 /**
  * 停止声音
  */
 function stopAudio() {
-  if (audioElm.value) {
-    audioElm.value.currentTime = 6
+  if (audioEl.value) {
+    audioEl.value.currentTime = 6
   }
-  stopFlag = true
+  stopFlag.value = true
 }
 
 /**
  * 播放风扇音频
  */
 function playFanAudio(currentTime = 3.5) {
-  if (!stopFlag) {
-    if (!audioElm.value) {
+  if (!stopFlag.value) {
+    if (!audioEl.value) {
       return
     }
 
-    audioElm.value.currentTime = currentTime
-    audioElm.value.play()
-    const delayTime = audioElm.value.duration - audioElm.value.currentTime - 1
+    audioEl.value.currentTime = currentTime
+    audioEl.value.play()
+    const delayTime = audioEl.value.duration - audioEl.value.currentTime - 1
     setTimeout(function() {
       playFanAudio()
     }, delayTime * 1000)

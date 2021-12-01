@@ -8,6 +8,7 @@ import 'virtual:windi-base.css'
 import 'virtual:windi-components.css'
 
 // your custom styles here
+import './styles/vars.scss'
 import './styles/main.scss'
 import './styles/index.scss'
 

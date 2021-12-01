@@ -1,5 +1,5 @@
 <template>
-  <h3 class="pt-10 font-light text-4xl" :title="description">
+  <h3 class="pt-10 text-4xl" :title="description">
     {{ title }}
     <br />
     <small class="text-sm">

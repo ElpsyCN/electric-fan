@@ -30,6 +30,43 @@ $circle-position: math.div($leaf-width, 2) -
   }
 }
 
+.fan-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--fan-color);
+  border-bottom-width: 0.25rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+
+  outline: none;
+
+  font-family: monospace;
+  font-weight: bold;
+
+  transition: 0.2s;
+
+  &:hover {
+    color: var(--fan-bg-color);
+    background-color: var(--fan-color);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.is-active,
+  &:active {
+    color: var(--fan-bg-color);
+    background-color: var(--fan-color);
+    transform: translateY(0.32rem);
+    border-bottom-width: 1px;
+  }
+}
+
 #fan {
   width: $fan-width;
   height: $header-width + $neck-height + $footer-height;

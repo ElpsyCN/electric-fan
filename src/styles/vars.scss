@@ -1,0 +1,9 @@
+:root {
+  --fan-color: #333;
+  --fan-bg-color: white;
+}
+
+html.dark {
+  --fan-color: white;
+  --fan-bg-color: #333;
+}

@@ -2,16 +2,18 @@
   <div class="footer">
     <div style="margin: 1rem">
       <a :href="adsenseLink" target="_blank">
-        <el-button>
+        <button class="fan-btn">
           <span class="animate-logo">{{ adText }}</span>
-        </el-button>
+        </button>
       </a>
     </div>
-    <vue-about-me :copyright="copyright"></vue-about-me>
+    <vue-about-me :is-dark="isDark" :copyright="copyright"></vue-about-me>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { isDark } from '~/composables'
+
 import VueAboutMe from 'vue-about-me'
 import 'vue-about-me/style.css'
 
