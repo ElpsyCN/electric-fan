@@ -11,7 +11,7 @@
     <div class="fan-neck"></div>
     <div class="fan-footer"></div>
   </div>
-  <FanSwitch></FanSwitch>
+  <FanSwitch />
 </template>
 
 <script setup lang="ts">

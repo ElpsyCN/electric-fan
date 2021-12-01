@@ -1,6 +1,6 @@
 @use "sass:math";
-$background-color: #000;
-$border-color: #000;
+$background-color: var(--fan-color);
+$border-color: var(--fan-color);
 
 $fan-width: 220px;
 
@@ -70,7 +70,7 @@ $circle-position: math.div($leaf-width, 2) -
 #fan {
   width: $fan-width;
   height: $header-width + $neck-height + $footer-height;
-  margin: 50px auto;
+  margin: 2rem auto;
   position: relative;
   z-index: 4;
   .fan-header {

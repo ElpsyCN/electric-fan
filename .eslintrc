@@ -1,3 +1,5 @@
 {
-  "extends": "@yunyoujun"
+  "extends": [
+    "@antfu"
+  ]
 }

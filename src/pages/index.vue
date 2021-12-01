@@ -1,5 +1,5 @@
 <template>
-  <h3 class="pt-10 text-4xl" :title="description">
+  <h3 class="pt-8 text-4xl" :title="description">
     {{ title }}
     <br />
     <small class="text-sm">
@@ -7,8 +7,9 @@
     </small>
   </h3>
 
-  <fan></fan>
-  <base-footer />
+  <BaseHeader class="mt-4" />
+  <Fan />
+  <BaseFooter />
 </template>
 
 <script setup lang="ts">
