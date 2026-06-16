@@ -1,0 +1,9 @@
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - esbuild
+peerDependencyRules:
+  allowedVersions:
+    beasties: ^0.4.2

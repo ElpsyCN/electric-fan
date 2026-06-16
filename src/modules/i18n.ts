@@ -1,21 +1,30 @@
+import type { UserModule } from '~/types'
 import { createI18n } from 'vue-i18n'
-import { UserModule } from '~/types'
+
+type MessageValue = string | { [key: string]: MessageValue }
+
+interface MessageSchema {
+  [key: string]: MessageValue
+  button: {
+    toggle_dark: string
+  }
+}
+
+type AppLocale = 'en' | 'zh-CN'
 
 // Import i18n resources
-// https://vitejs.dev/guide/features.html#glob-import
-//
-// Don't need this? Try vitesse-lite: https://github.com/antfu/vitesse-lite
+// https://vite.dev/guide/features.html#glob-import
 const messages = Object.fromEntries(
   Object.entries(
-    import.meta.globEager('../../locales/*.y(a)?ml'))
-    .map(([key, value]) => {
-      const yaml = key.endsWith('.yaml')
-      return [key.slice(14, yaml ? -5 : -4), value.default]
-    }),
-)
+    import.meta.glob<{ default: MessageSchema }>('../../locales/*.{yml,yaml}', { eager: true }),
+  ).map(([key, value]) => [
+    key.replace('../../locales/', '').replace(/\.ya?ml$/, ''),
+    value.default,
+  ]),
+) as Record<AppLocale, MessageSchema>
 
 export const install: UserModule = ({ app }) => {
-  const i18n = createI18n({
+  const i18n = createI18n<{ message: MessageSchema }, AppLocale>({
     legacy: false,
     locale: 'en',
     messages,

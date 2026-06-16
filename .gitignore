@@ -6,7 +6,6 @@ auto-imports.d.ts
 
 yarn.lock
 package-lock.json
-pnpm-lock.yaml
 
 .DS_Store
 node_modules

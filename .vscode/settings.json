@@ -5,10 +5,10 @@
   "prettier.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
+    "source.fixAll.eslint": "explicit"
   },
   "files.associations": {
-    "*.css": "postcss",
+    "*.css": "postcss"
   },
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": false
 }

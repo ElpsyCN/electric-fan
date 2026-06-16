@@ -1,23 +1,3 @@
-<template>
-  <audio ref="switchAudioEl" id="switch-audio" src="/audio/switch.mp3"></audio>
-  <audio ref="audioEl" preload="metadata" id="switch-audio" src="/audio/fan.wav"></audio>
-  <button
-    v-for="(item, index) in switchItems"
-    :key="index"
-    class="fan-btn"
-    :class="[item.class, item.value === state.level.value ? 'is-active' : '']"
-    :label="item.name"
-    @click="
-      () => {
-        radioChange(item.value);
-        playSwitchAudio();
-      }
-    "
-  >
-    {{ item.name }}
-  </button>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { store } from '~/stores'
@@ -35,6 +15,10 @@ const switchItems = [
 const audioEl = ref<HTMLAudioElement>()
 const switchAudioEl = ref<HTMLAudioElement>()
 
+function playAudio(audio: HTMLAudioElement) {
+  void audio.play().catch(() => undefined)
+}
+
 function radioChange(level: number) {
   store.state.level = level
 
@@ -48,11 +32,12 @@ function radioChange(level: number) {
         return
       }
       if (
-        audioEl.value.currentTime === 0 ||
-        audioEl.value.currentTime === audioEl.value.duration
+        audioEl.value.currentTime === 0
+        || audioEl.value.currentTime === audioEl.value.duration
       ) {
         playFanAudio(0)
-      } else {
+      }
+      else {
         playFanAudio()
       }
       break
@@ -64,7 +49,7 @@ function radioChange(level: number) {
  */
 function playSwitchAudio() {
   if (switchAudioEl.value)
-    switchAudioEl.value.play()
+    playAudio(switchAudioEl.value)
 }
 
 /**
@@ -87,11 +72,31 @@ function playFanAudio(currentTime = 3.5) {
     }
 
     audioEl.value.currentTime = currentTime
-    audioEl.value.play()
+    playAudio(audioEl.value)
     const delayTime = audioEl.value.duration - audioEl.value.currentTime - 1
-    setTimeout(function() {
+    setTimeout(() => {
       playFanAudio()
     }, delayTime * 1000)
   }
 }
 </script>
+
+<template>
+  <audio id="switch-audio" ref="switchAudioEl" src="/audio/switch.mp3" />
+  <audio id="switch-audio" ref="audioEl" preload="metadata" src="/audio/fan.wav" />
+  <button
+    v-for="(item, index) in switchItems"
+    :key="index"
+    class="fan-btn"
+    :class="[item.class, item.value === state.level.value ? 'is-active' : '']"
+    :label="item.name"
+    @click="
+      () => {
+        radioChange(item.value);
+        playSwitchAudio();
+      }
+    "
+  >
+    {{ item.name }}
+  </button>
+</template>

@@ -1,20 +1,7 @@
-<template>
-  <div class="footer">
-    <div style="margin: 1rem">
-      <a :href="adsenseLink" target="_blank">
-        <button class="fan-btn">
-          <span class="animate-logo">{{ adText }}</span>
-        </button>
-      </a>
-    </div>
-    <vue-about-me :is-dark="isDark" :copyright="copyright"></vue-about-me>
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { isDark } from '~/composables'
+import { VueAboutMe } from 'vue-about-me'
 
-import VueAboutMe from 'vue-about-me'
+import { isDark } from '~/composables'
 import 'vue-about-me/style.css'
 
 const adsenseLink = 'https://sponsors.yunyoujun.cn'
@@ -28,3 +15,16 @@ const copyright = {
   link: adsenseLink,
 }
 </script>
+
+<template>
+  <div class="footer">
+    <div style="margin: 1rem">
+      <a :href="adsenseLink" target="_blank">
+        <button class="fan-btn">
+          <span class="animate-logo">{{ adText }}</span>
+        </button>
+      </a>
+    </div>
+    <VueAboutMe :is-dark="isDark" :copyright="copyright" />
+  </div>
+</template>

@@ -39,18 +39,20 @@
 
 ## Dev 开发
 
+需要 Node.js `>=22.13.0` 与 pnpm 11。
+
 ```sh
 # install dependencies
-yarn
+pnpm install
 ```
 
 ```sh
 # 启动
 # http://localhost:3000/
-yarn dev
+pnpm dev
 ```
 
 ```sh
 # 构建
-yarn build
+pnpm build
 ```

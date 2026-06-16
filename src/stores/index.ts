@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+
 export const store = {
   debug: true,
 
