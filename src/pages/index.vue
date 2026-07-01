@@ -12,7 +12,6 @@ const description = '除了没有风，什么都好！'
     </small>
   </h3>
 
-  <BaseHeader class="mt-4" />
   <Fan />
   <BaseFooter />
 </template>

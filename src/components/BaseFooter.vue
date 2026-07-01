@@ -19,10 +19,8 @@ const copyright = {
 <template>
   <div class="footer">
     <div style="margin: 1rem">
-      <a :href="adsenseLink" target="_blank">
-        <button class="fan-btn">
-          <span class="animate-logo">{{ adText }}</span>
-        </button>
+      <a class="fan-btn fan-sponsor" :href="adsenseLink" target="_blank" rel="noopener noreferrer" aria-label="赞助项目">
+        <span class="animate-logo">{{ adText }}</span>
       </a>
     </div>
     <VueAboutMe :is-dark="isDark" :copyright="copyright" />

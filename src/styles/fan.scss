@@ -30,23 +30,35 @@ $circle-position: math.div($leaf-width, 2) -
   }
 }
 
+@keyframes fanHeadSway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
 .fan-btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
   border-radius: 50%;
   width: 3rem;
   height: 3rem;
   border: 2px solid var(--fan-color);
   border-bottom-width: 0.25rem;
+  background: transparent;
+  color: var(--fan-color);
   margin: 0.5rem;
   font-size: 1rem;
-
-  outline: none;
-
+  cursor: pointer;
   font-family: monospace;
   font-weight: bold;
-
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
   transition: 0.2s;
 
   &:hover {
@@ -54,8 +66,9 @@ $circle-position: math.div($leaf-width, 2) -
     background-color: var(--fan-color);
   }
 
-  &:focus {
-    outline: none;
+  &:focus-visible {
+    outline: 3px solid var(--fan-color);
+    outline-offset: 0.25rem;
   }
 
   &.is-active,
@@ -65,6 +78,13 @@ $circle-position: math.div($leaf-width, 2) -
     transform: translateY(0.32rem);
     border-bottom-width: 1px;
   }
+}
+
+.fan-sponsor {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.9rem;
+  opacity: 0.86;
 }
 
 #fan {
@@ -84,6 +104,47 @@ $circle-position: math.div($leaf-width, 2) -
     border-radius: 50%;
     z-index: 1;
     border: solid $header-border-width $border-color;
+    transform-origin: 50% calc(100% + 8px);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: $header-border-width;
+      z-index: 3;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.28;
+      background:
+        radial-gradient(
+          circle at center,
+          transparent 0 32px,
+          $border-color 33px 34px,
+          transparent 35px 62px,
+          $border-color 63px 64px,
+          transparent 65px 92px,
+          $border-color 93px 95px,
+          transparent 96px
+        ),
+        repeating-conic-gradient(
+          from -1.5deg,
+          $border-color 0deg 1.6deg,
+          transparent 1.6deg 14deg
+        );
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: 4;
+      top: math.div($header-width, 2) - 14px;
+      left: math.div($header-width, 2) - 14px;
+      width: 28px;
+      height: 28px;
+      border: 6px solid $border-color;
+      border-radius: 50%;
+      background: var(--fan-bg-color);
+      pointer-events: none;
+    }
 
     .leafs {
       z-index: 2;
@@ -176,5 +237,21 @@ $circle-position: math.div($leaf-width, 2) -
     left: math.div($fan-width, 2) -
       math.div($footer-width, 2);
     z-index: 3;
+  }
+}
+
+#fan.is-running {
+  .fan-header {
+    animation: fanHeadSway 4s ease-in-out infinite;
+    will-change: transform;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #fan.is-running {
+    .fan-header {
+      animation: none;
+      will-change: auto;
+    }
   }
 }

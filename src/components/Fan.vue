@@ -3,7 +3,7 @@ import { store } from '~/stores'
 </script>
 
 <template>
-  <div id="fan">
+  <div id="fan" :class="{ 'is-running': store.state.level > 0 }">
     <div class="fan-header">
       <div :class="`leafs-${store.state.level}`">
         <div class="circle" />

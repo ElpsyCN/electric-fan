@@ -5,9 +5,6 @@ type MessageValue = string | { [key: string]: MessageValue }
 
 interface MessageSchema {
   [key: string]: MessageValue
-  button: {
-    toggle_dark: string
-  }
 }
 
 type AppLocale = 'en' | 'zh-CN'
