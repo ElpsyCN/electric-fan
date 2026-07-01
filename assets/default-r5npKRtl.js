@@ -1,0 +1,1 @@
+import{a as e,i as t,n,r}from"./index-Crgnagp5.js";var i=(e,t)=>{let n=e.__vccOpts||e;for(let[e,r]of t)n[e]=r;return n},a={},o={class:`text-center text-gray-700 dark:text-gray-200`};function s(i,a){let s=e(`router-view`);return t(),n(`main`,o,[r(s)])}var c=i(a,[[`render`,s]]);export{c as default};
