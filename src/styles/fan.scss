@@ -17,6 +17,13 @@ $footer-height: 10px;
 $footer-width: 150px;
 
 $circle-width: 10px;
+
+$hub-size: 40px;
+
+// Blade geometry, measured from the fan's centre
+$blade-width: 66px;
+$blade-reach: 94px;
+$blade-length: 88px;
 $circle-border-width: 8px;
 $circle-position: math.div($leaf-width, 2) -
   (math.div($circle-width, 2) + $circle-border-width);
@@ -136,10 +143,12 @@ $circle-position: math.div($leaf-width, 2) -
       content: "";
       position: absolute;
       z-index: 4;
-      top: math.div($header-width, 2) - 14px;
-      left: math.div($header-width, 2) - 14px;
-      width: 28px;
-      height: 28px;
+      // Border-box keeps the hub cap centred on the blades' rotation axis.
+      box-sizing: border-box;
+      top: math.div($header-width - $hub-size, 2);
+      left: math.div($header-width - $hub-size, 2);
+      width: $hub-size;
+      height: $hub-size;
       border: 6px solid $border-color;
       border-radius: 50%;
       background: var(--fan-bg-color);
@@ -168,29 +177,33 @@ $circle-position: math.div($leaf-width, 2) -
         top: $circle-position;
       }
 
+      // Each blade is a petal centred on its own radius: it starts under the
+      // hub, ends inside the guard ring, and turns about the fan's true centre,
+      // so the three blades match in size and spacing at every angle.
       .leaf {
-        box-sizing: content-box;
-
-        width: 72px;
-        height: 60px;
-        border-radius: 20% 50%;
+        box-sizing: border-box;
+        width: $blade-width;
+        height: $blade-length;
         border: $leaf-border-width solid $border-color;
+        border-radius: 50% 50% 48% 48% / 64% 64% 36% 36%;
         position: absolute;
-        left: math.div($leaf-width, 2);
-        top: math.div($leaf-width, 2);
-        transform-origin: 0% 0%;
+        left: math.div($leaf-width - $blade-width, 2);
+        top: math.div($leaf-width, 2) - $blade-reach;
+        transform-origin: 50% $blade-reach;
+        transform: rotate(var(--blade-angle, 0deg)) skewX(-8deg);
       }
 
       .leaf-1 {
         @extend .leaf;
+        --blade-angle: 0deg;
       }
       .leaf-2 {
         @extend .leaf;
-        transform: rotate(120deg);
+        --blade-angle: 120deg;
       }
       .leaf-3 {
         @extend .leaf;
-        transform: rotate(240deg);
+        --blade-angle: 240deg;
       }
     }
 
