@@ -9,6 +9,6 @@
     "build": "tsdown && node scripts/pack.mjs"
   },
   "dependencies": {
-    "@yunlefun-home/electric-fan-core": "workspace:*"
+    "@yunlefun-home/electric-fan": "workspace:*"
   }
 }

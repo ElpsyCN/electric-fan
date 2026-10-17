@@ -2,7 +2,7 @@
   "name": "@yunlefun-home/electric-fan",
   "type": "module",
   "version": "0.1.0",
-  "description": "Vue SVG electric fan for the fan site and Yun Home.",
+  "description": "SVG electric fan for Vue, plus the framework-agnostic fan state machine (/core) shared by the fan site and Yun Home.",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
@@ -13,22 +13,37 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ElpsyCN/electric-fan",
-    "directory": "packages/vue"
+    "directory": "packages/electric-fan"
   },
-  "keywords": ["electric-fan", "smart-home", "vue", "svg"],
-  "sideEffects": ["./dist/style.css"],
+  "keywords": [
+    "electric-fan",
+    "smart-home",
+    "vue",
+    "svg",
+    "state-machine"
+  ],
+  "sideEffects": [
+    "./dist/style.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js",
+      "require": "./dist/core.cjs"
+    },
     "./style.css": "./dist/style.css"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -39,7 +54,9 @@
   "peerDependencies": {
     "vue": ">=3.5"
   },
-  "dependencies": {
-    "@yunlefun-home/electric-fan-core": "workspace:^"
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
   }
 }

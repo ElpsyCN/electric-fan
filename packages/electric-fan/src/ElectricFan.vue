@@ -10,9 +10,9 @@
  * <ElectricFan :level="2" oscillating title="电风扇" />
  * ```
  */
-import type { FanLevel } from '@yunlefun-home/electric-fan-core'
-import { fanSpinSeconds } from '@yunlefun-home/electric-fan-core'
+import type { FanLevel } from './core'
 import { computed, onBeforeUnmount, onMounted, useTemplateRef, watch } from 'vue'
+import { fanSpinSeconds } from './core'
 
 const props = withDefaults(defineProps<{
   /** 0 = off, 1–3 = speed */

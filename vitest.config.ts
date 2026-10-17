@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   resolve: {
     alias: {
-      '@yunlefun-home/electric-fan-core': fileURLToPath(new URL('./packages/core/src/index.ts', import.meta.url)),
+      '@yunlefun-home/electric-fan/core': fileURLToPath(new URL('./packages/electric-fan/src/core/index.ts', import.meta.url)),
     },
   },
   test: {
