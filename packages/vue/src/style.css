@@ -1,0 +1,45 @@
+/*
+ * @yunlefun-home/electric-fan
+ * Theme with --fan-color (lines) and --fan-bg-color (blade and hub fill).
+ */
+.electric-fan {
+  --_fan: var(--fan-color, #333);
+  --_fan-bg: var(--fan-bg-color, #fff);
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.electric-fan__shadow { fill: var(--_fan); opacity: 0.08; }
+.electric-fan__base,
+.electric-fan__neck { fill: var(--_fan); }
+.electric-fan__face { fill: var(--_fan-bg); }
+.electric-fan__ring { fill: none; stroke: var(--_fan); stroke-width: 10; }
+.electric-fan__grille { fill: none; stroke: var(--_fan); stroke-width: 1.6; opacity: 0.28; }
+.electric-fan__blade { fill: var(--_fan-bg); stroke: var(--_fan); stroke-width: 8; stroke-linejoin: round; }
+.electric-fan__hub { fill: var(--_fan-bg); stroke: var(--_fan); stroke-width: 6; }
+
+/* Both pivots are fixed points of the drawing, not the groups' bounding boxes. */
+.electric-fan__blades {
+  transform-box: view-box;
+  transform-origin: 120px 120px;
+}
+
+.electric-fan__head {
+  transform-box: view-box;
+  transform-origin: 120px 248px;
+}
+
+.electric-fan.is-oscillating .electric-fan__head {
+  animation: electric-fan-sway 4s ease-in-out infinite;
+}
+
+@keyframes electric-fan-sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .electric-fan.is-oscillating .electric-fan__head { animation: none; }
+}

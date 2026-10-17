@@ -1,23 +1,24 @@
 <script setup lang="ts">
+import type { FanLevel } from '@yunlefun-home/electric-fan-core'
+import { ElectricFan } from '@yunlefun-home/electric-fan'
 import { store } from '~/stores'
+import '@yunlefun-home/electric-fan/style.css'
+
+const level = computed(() => store.state.level as FanLevel)
 </script>
 
 <template>
-  <div id="fan" :class="{ 'is-running': store.state.level > 0 }">
-    <div class="fan-header">
-      <div :class="`leafs-${store.state.level}`">
-        <div class="circle" />
-        <div class="leaf-1" />
-        <div class="leaf-2" />
-        <div class="leaf-3" />
-      </div>
-    </div>
-    <div class="fan-neck" />
-    <div class="fan-footer" />
+  <div id="fan">
+    <ElectricFan :level="level" :oscillating="level > 0" title="电风扇" />
   </div>
   <FanSwitch />
 </template>
 
 <style lang="scss">
 @use '~/styles/fan';
+
+#fan {
+  width: 240px;
+  margin: 2rem auto;
+}
 </style>

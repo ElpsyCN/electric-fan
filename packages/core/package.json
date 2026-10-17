@@ -1,0 +1,38 @@
+{
+  "name": "@yunlefun-home/electric-fan-core",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Framework-agnostic electric fan state machine shared by the fan site, Yun Home web and native plugins.",
+  "author": {
+    "email": "me@yunyoujun.cn",
+    "name": "YunYouJun",
+    "url": "https://www.yunyoujun.cn"
+  },
+  "license": "MIT",
+  "homepage": "https://fan.elpsy.cn",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ElpsyCN/electric-fan",
+    "directory": "packages/core"
+  },
+  "keywords": ["electric-fan", "smart-home", "state-machine"],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "prepack": "pnpm run build"
+  }
+}

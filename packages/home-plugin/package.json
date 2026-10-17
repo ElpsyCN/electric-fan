@@ -1,0 +1,14 @@
+{
+  "name": "@electric-fan/home-plugin",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Yun Home device plugin (.yunplugin) for the electric fan.",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsdown && node scripts/pack.mjs"
+  },
+  "dependencies": {
+    "@yunlefun-home/electric-fan-core": "workspace:*"
+  }
+}
