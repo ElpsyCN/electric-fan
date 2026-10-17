@@ -22,7 +22,7 @@
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "build:packages": "pnpm -r --filter \"./packages/*\" run build",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build:packages && pnpm build"
+    "check": "pnpm lint && pnpm build:packages && pnpm build && pnpm typecheck && pnpm test"
   },
   "dependencies": {
     "@gtm-support/vue-gtm": "^3.2.0",

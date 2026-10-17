@@ -38,12 +38,9 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      # The site build generates the auto-import declarations typecheck needs.
       - name: Check
-        run: |
-          pnpm lint
-          pnpm typecheck
-          pnpm build:packages
-          pnpm test
+        run: pnpm run check
 
       - name: Verify tag matches package versions
         if: github.ref_type == 'tag'
