@@ -19,12 +19,17 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "build:packages": "pnpm -r --filter \"./packages/*\" run build",
+    "check": "pnpm lint && pnpm build:packages && pnpm build && pnpm typecheck && pnpm test"
   },
   "dependencies": {
     "@gtm-support/vue-gtm": "^3.2.0",
     "@unhead/vue": "^2.1.15",
     "@vueuse/core": "^14.3.0",
+    "@yunlefun-home/electric-fan": "workspace:*",
+    "@yunlefun-home/electric-fan-core": "workspace:*",
     "nprogress": "^0.2.0",
     "vue": "^3.5.38",
     "vue-about-me": "^1.4.0",
@@ -46,10 +51,12 @@
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-prism": "^3.0.1",
     "sass": "^1.101.0",
+    "tsdown": "^0.23.1",
     "typescript": "^6.0.3",
     "unocss": "^66.7.2",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-icons": "^23.0.1",
+    "unplugin-vue": "^8.0.0",
     "unplugin-vue-components": "^32.1.0",
     "unplugin-vue-markdown": "^32.0.0",
     "vite": "^8.0.16",
@@ -58,6 +65,7 @@
     "vite-plugin-pwa": "^1.3.0",
     "vite-plugin-vue-layouts-next": "^2.1.0",
     "vite-ssg": "^28.3.0",
+    "vitest": "^5.0.5",
     "vue-tsc": "^3.3.5",
     "workbox-window": "^7.4.1"
   }

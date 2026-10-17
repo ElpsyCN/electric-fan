@@ -6,7 +6,9 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@yunlefun-home/electric-fan-core": ["./packages/core/src/index.ts"],
+      "@yunlefun-home/electric-fan": ["./packages/vue/src/index.ts"]
     },
     "resolveJsonModule": true,
     "types": [
@@ -23,5 +25,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "packages/*/dist"]
 }

@@ -27,4 +27,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
+      - run: pnpm build:packages
+      # The site build generates src/auto-imports.d.ts and src/components.d.ts,
+      # which are gitignored but needed by typecheck.
+      - run: pnpm build
       - run: pnpm typecheck
+      - run: pnpm test

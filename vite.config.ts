@@ -24,6 +24,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '~/': `${resolve(root, 'src')}/`,
+      // Build the site straight from package sources; no prebuild step needed.
+      '@yunlefun-home/electric-fan-core': resolve(root, 'packages/core/src/index.ts'),
+      '@yunlefun-home/electric-fan/style.css': resolve(root, 'packages/vue/src/style.css'),
+      '@yunlefun-home/electric-fan': resolve(root, 'packages/vue/src/index.ts'),
     },
   },
   plugins: [

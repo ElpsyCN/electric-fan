@@ -1,0 +1,45 @@
+{
+  "name": "@yunlefun-home/electric-fan",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Vue SVG electric fan for the fan site and Yun Home.",
+  "author": {
+    "email": "me@yunyoujun.cn",
+    "name": "YunYouJun",
+    "url": "https://www.yunyoujun.cn"
+  },
+  "license": "MIT",
+  "homepage": "https://fan.elpsy.cn",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ElpsyCN/electric-fan",
+    "directory": "packages/vue"
+  },
+  "keywords": ["electric-fan", "smart-home", "vue", "svg"],
+  "sideEffects": ["./dist/style.css"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown && cp src/style.css dist/style.css",
+    "prepack": "pnpm run build"
+  },
+  "peerDependencies": {
+    "vue": ">=3.5"
+  },
+  "dependencies": {
+    "@yunlefun-home/electric-fan-core": "workspace:^"
+  }
+}

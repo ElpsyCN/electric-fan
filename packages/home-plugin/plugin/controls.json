@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "controls": [
+    { "type": "power", "bind": "power", "label": "电源", "action": { "type": "toggle" } },
+    {
+      "type": "segmented",
+      "bind": "speed",
+      "label": "风速",
+      "options": [
+        { "value": 1, "label": "1 档", "action": { "type": "set-speed", "speed": 1 } },
+        { "value": 2, "label": "2 档", "action": { "type": "set-speed", "speed": 2 } },
+        { "value": 3, "label": "3 档", "action": { "type": "set-speed", "speed": 3 } }
+      ]
+    },
+    {
+      "type": "segmented",
+      "bind": "oscillating",
+      "label": "摇头",
+      "options": [
+        { "value": false, "label": "定向", "symbol": "arrow.up", "action": { "type": "set-oscillation", "oscillating": false } },
+        { "value": true, "label": "摇头", "symbol": "arrow.left.and.right", "action": { "type": "set-oscillation", "oscillating": true } }
+      ]
+    }
+  ]
+}
