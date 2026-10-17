@@ -1,9 +1,9 @@
 name: Release
 
-# Publishes @yunlefun-home/electric-fan-core and @yunlefun-home/electric-fan
+# Publishes @yunlefun-home/electric-fan (the Vue component and its /core state machine)
 # with npm trusted publishing (OIDC): no NPM_TOKEN secret, provenance is attached.
-# Each package must list this repository and `release.yml` as a trusted publisher
-# on npmjs.com. Tags (v*) version the packages, not the fan.elpsy.cn site.
+# The package must list this repository and `release.yml` as a trusted publisher
+# on npmjs.com. Tags (v*) version the package, not the fan.elpsy.cn site.
 
 on:
   push:
@@ -45,35 +45,31 @@ jobs:
       - name: Verify tag matches package versions
         if: github.ref_type == 'tag'
         run: |
-          for pkg in packages/core packages/vue; do
-            version=$(node -p "require('./$pkg/package.json').version")
-            if [ "v$version" != "$GITHUB_REF_NAME" ]; then
-              echo "::error::$pkg is $version but the tag is $GITHUB_REF_NAME"
-              exit 1
-            fi
-          done
+          version=$(node -p "require('./packages/electric-fan/package.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::packages/electric-fan is $version but the tag is $GITHUB_REF_NAME"
+            exit 1
+          fi
 
-      # Core first: the Vue package depends on the same core version.
       - name: Publish
         run: |
+          pkg=packages/electric-fan
+          name=$(node -p "require('./$pkg/package.json').name")
+          version=$(node -p "require('./$pkg/package.json').version")
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already published, skipping"
+            exit 0
+          fi
+          # Prereleases go to their identifier (0.4.0-beta.1 -> beta), others to latest.
+          dist_tag=latest
+          case "$version" in
+            *-*) dist_tag=$(echo "${version#*-}" | cut -d. -f1) ;;
+          esac
           out="$RUNNER_TEMP/packages"
           mkdir -p "$out"
-          for pkg in packages/core packages/vue; do
-            name=$(node -p "require('./$pkg/package.json').name")
-            version=$(node -p "require('./$pkg/package.json').version")
-            if npm view "$name@$version" version >/dev/null 2>&1; then
-              echo "$name@$version is already published, skipping"
-              continue
-            fi
-            # Prereleases go to their identifier (0.4.0-beta.1 -> beta), others to latest.
-            dist_tag=latest
-            case "$version" in
-              *-*) dist_tag=$(echo "${version#*-}" | cut -d. -f1) ;;
-            esac
-            # pnpm pack rewrites workspace: ranges; npm publish performs the OIDC exchange.
-            tarball=$(pnpm -C "$pkg" pack --pack-destination "$out" | tail -n 1)
-            npm publish "$tarball" --access public --tag "$dist_tag"
-          done
+          # npm publish performs the OIDC exchange.
+          tarball=$(pnpm -C "$pkg" pack --pack-destination "$out" | tail -n 1)
+          npm publish "$tarball" --access public --tag "$dist_tag"
 
   # Attach the Yun Home plugin package to the GitHub Release for this tag.
   plugin:
@@ -95,7 +91,7 @@ jobs:
 
       - name: Build plugin
         run: |
-          pnpm -C packages/core run build
+          pnpm -C packages/electric-fan run build
           pnpm -C packages/home-plugin run build
 
       - name: Upload to GitHub Release

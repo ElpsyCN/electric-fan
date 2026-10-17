@@ -19,10 +19,7 @@ importers:
         version: 14.3.0(vue@3.5.38(typescript@6.0.3))
       '@yunlefun-home/electric-fan':
         specifier: workspace:*
-        version: link:packages/vue
-      '@yunlefun-home/electric-fan-core':
-        specifier: workspace:*
-        version: link:packages/core
+        version: link:packages/electric-fan
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -133,22 +130,17 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1
 
-  packages/core: {}
-
-  packages/home-plugin:
+  packages/electric-fan:
     dependencies:
-      '@yunlefun-home/electric-fan-core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages/vue:
-    dependencies:
-      '@yunlefun-home/electric-fan-core':
-        specifier: workspace:^
-        version: link:../core
       vue:
         specifier: '>=3.5'
         version: 3.5.38(typescript@6.0.3)
+
+  packages/home-plugin:
+    dependencies:
+      '@yunlefun-home/electric-fan':
+        specifier: workspace:*
+        version: link:../electric-fan
 
 packages:
 
@@ -7046,7 +7038,7 @@ snapshots:
       '@vue/shared': 3.5.38
       entities: 7.0.1
       estree-walker: 2.0.2
-      source-map-js: 1.2.1
+      source-map-js: 1.2.2
 
   '@vue/compiler-dom@3.5.38':
     dependencies:
@@ -7062,8 +7054,8 @@ snapshots:
       '@vue/shared': 3.5.38
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.15
-      source-map-js: 1.2.1
+      postcss: 8.5.30
+      source-map-js: 1.2.2
 
   '@vue/compiler-ssr@3.5.38':
     dependencies:
@@ -7089,11 +7081,11 @@ snapshots:
     dependencies:
       '@volar/language-core': 2.4.28
       '@vue/compiler-dom': 3.5.38
-      '@vue/shared': 3.5.38
+      '@vue/shared': 3.5.44
       alien-signals: 3.2.1
       muggle-string: 0.4.1
       path-browserify: 1.0.1
-      picomatch: 4.0.4
+      picomatch: 4.0.7
 
   '@vue/reactivity@3.5.38':
     dependencies:
@@ -7427,7 +7419,7 @@ snapshots:
   css-tree@3.2.1:
     dependencies:
       mdn-data: 2.27.1
-      source-map-js: 1.2.1
+      source-map-js: 1.2.2
 
   css-what@7.0.0: {}
 
@@ -8035,9 +8027,9 @@ snapshots:
     dependencies:
       format: 0.2.2
 
-  fdir@6.5.0(picomatch@4.0.4):
+  fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
-      picomatch: 4.0.4
+      picomatch: 4.0.7
 
   file-entry-cache@8.0.0:
     dependencies:
@@ -8668,7 +8660,7 @@ snapshots:
 
   magic-string@0.30.21:
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/sourcemap-codec': 1.6.0
 
   magic-string@1.4.3:
     dependencies:
@@ -9712,8 +9704,8 @@ snapshots:
 
   tinyglobby@0.2.17:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
 
   tldts-core@7.4.2: {}
 
@@ -9854,7 +9846,7 @@ snapshots:
 
   unhead@2.1.15:
     dependencies:
-      hookable: 6.1.1
+      hookable: 6.1.2
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 

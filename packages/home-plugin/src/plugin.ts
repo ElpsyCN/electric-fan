@@ -1,5 +1,5 @@
-import type { FanAction, FanState } from '@yunlefun-home/electric-fan-core'
-import { createFanState, expireFanTimer, fanReducer, fanSummary, fanTone, isFanAction, normalizeFanState } from '@yunlefun-home/electric-fan-core'
+import type { FanAction, FanState } from '@yunlefun-home/electric-fan/core'
+import { createFanState, expireFanTimer, fanReducer, fanSummary, fanTone, isFanAction, normalizeFanState } from '@yunlefun-home/electric-fan/core'
 
 /**
  * Yun Home sandbox plugin contract, SDK version 1: pure functions over JSON,

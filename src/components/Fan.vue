@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FanLevel } from '@yunlefun-home/electric-fan-core'
+import type { FanLevel } from '@yunlefun-home/electric-fan/core'
 import { ElectricFan } from '@yunlefun-home/electric-fan'
 import { store } from '~/stores'
 import '@yunlefun-home/electric-fan/style.css'

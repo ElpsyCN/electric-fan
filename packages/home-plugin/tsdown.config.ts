@@ -10,6 +10,6 @@ export default defineConfig({
   platform: 'neutral',
   target: 'es2020',
   deps: {
-    alwaysBundle: ['@yunlefun-home/electric-fan-core'],
+    alwaysBundle: [/^@yunlefun-home\/electric-fan/],
   },
 })

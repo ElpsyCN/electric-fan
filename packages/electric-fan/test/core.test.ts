@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { createFanState, expireFanTimer, fanLevel, fanReducer, fanSummary, fanTone, isFanAction, normalizeFanState } from '../src'
+import { createFanState, expireFanTimer, fanLevel, fanReducer, fanSummary, fanTone, isFanAction, normalizeFanState } from '../src/core'
 
 const changedAt = '2026-07-15T08:00:00.000Z'
 
-describe('@yunlefun-home/electric-fan-core', () => {
+describe('@yunlefun-home/electric-fan/core', () => {
   it('matches the Yun Home fan contract', () => {
     let state = createFanState(changedAt)
     expect(state).toEqual({ power: false, speed: 1, oscillating: false, autoOffAt: null, stateChangedAt: changedAt })

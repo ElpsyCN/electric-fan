@@ -29,7 +29,6 @@
     "@unhead/vue": "^2.1.15",
     "@vueuse/core": "^14.3.0",
     "@yunlefun-home/electric-fan": "workspace:*",
-    "@yunlefun-home/electric-fan-core": "workspace:*",
     "nprogress": "^0.2.0",
     "vue": "^3.5.38",
     "vue-about-me": "^1.4.0",

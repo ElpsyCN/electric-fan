@@ -7,8 +7,8 @@
     "moduleResolution": "Bundler",
     "paths": {
       "~/*": ["./src/*"],
-      "@yunlefun-home/electric-fan-core": ["./packages/core/src/index.ts"],
-      "@yunlefun-home/electric-fan": ["./packages/vue/src/index.ts"]
+      "@yunlefun-home/electric-fan/core": ["./packages/electric-fan/src/core/index.ts"],
+      "@yunlefun-home/electric-fan": ["./packages/electric-fan/src/index.ts"]
     },
     "resolveJsonModule": true,
     "types": [
