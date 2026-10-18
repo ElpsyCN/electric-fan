@@ -20,7 +20,7 @@
   margin: 0.75rem auto 0;
   padding: 0.5rem 1rem;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 1.25rem;
   background: var(--surface);
   backdrop-filter: blur(12px);
   font-size: 0.8rem;
@@ -71,6 +71,34 @@
     box-shadow: 0 0 0 calc(var(--voice) * 6px) color-mix(in srgb, var(--accent) 30%, transparent);
 
     svg { color: var(--accent); }
+  }
+}
+
+.voice-mode {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    height: 1.4rem;
+    padding: 0 0.55rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+    @include focus-ring;
+
+    &[aria-checked='true'] {
+      background: var(--fan-color);
+      color: var(--fan-bg-color);
+    }
   }
 }
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FanLevel } from '@yunlefun-home/electric-fan/core'
 import { fanSummary, fanTimerMinutesLeft } from '@yunlefun-home/electric-fan/core'
-import { cancelRecording, isVoiceReady, operate, prepareVoice, startRecording, stopRecording, stopVoice, voiceLevel } from '~/composables'
-import { expireTimer, fanState, windRatio } from '~/stores'
+import { cancelRecording, isVoiceReady, operate, prepareVoice, startLive, startRecording, stopLive, stopRecording, stopVoice, voiceLevel } from '~/composables'
+import { expireTimer, fanState, voiceMode, windRatio } from '~/stores'
 
 const METER_BARS = 12
 
@@ -24,13 +24,18 @@ useIntervalFn(() => {
 }, 1000)
 watch(() => fanState.value.autoOffAt, () => now.value = Date.now())
 
-// Talk into the fan, walkie-talkie style: hold to record, release to hear it
-// played back through the blades.
-type VoiceState = 'idle' | 'asking' | 'recording' | 'playing'
+// Talk into the fan while holding the button: live through the blades, or
+// recorded and played back on release.
+type VoiceState = 'idle' | 'asking' | 'live' | 'recording' | 'playing'
 const voice = shallowRef<VoiceState>('idle')
 const voiceTip = shallowRef('')
 const micButton = useTemplateRef<HTMLButtonElement>('micButton')
-const micLabel = computed(() => ({ idle: '按住说话', asking: '请允许麦克风', recording: '松开播放', playing: '播放中…' })[voice.value])
+const micLabel = computed(() => ({ idle: '按住说话', asking: '请允许麦克风', live: '说「啊——」', recording: '松开播放', playing: '播放中…' })[voice.value])
+
+function setVoiceMode(mode: typeof voiceMode.value) {
+  voiceMode.value = mode
+  voiceTip.value = mode === 'live' ? '实时模式请戴耳机，外放会被自己的声音盖住，还可能啸叫' : ''
+}
 let levelFrame = 0
 let pressedAt = 0
 let held = false
@@ -48,7 +53,7 @@ function hideLevel() {
 async function pressVoice() {
   held = true
   voiceTip.value = ''
-  if (voice.value === 'asking' || voice.value === 'recording')
+  if (voice.value === 'asking' || voice.value === 'recording' || voice.value === 'live')
     return
   if (!isVoiceReady()) {
     // The permission prompt takes the press; the next hold records.
@@ -67,6 +72,15 @@ async function pressVoice() {
       return
     }
   }
+  if (voiceMode.value === 'live') {
+    if (startLive()) {
+      voice.value = 'live'
+      if (windRatio.value < 0.03)
+        voiceTip.value = '风扇没开，声音没被切碎：先按 1 / 2 / 3'
+      showLevel()
+    }
+    return
+  }
   if (startRecording(releaseVoice)) {
     voice.value = 'recording'
     pressedAt = performance.now()
@@ -76,6 +90,12 @@ async function pressVoice() {
 
 async function releaseVoice() {
   held = false
+  if (voice.value === 'live') {
+    stopLive()
+    hideLevel()
+    voice.value = 'idle'
+    return
+  }
   if (voice.value !== 'recording')
     return
   if (performance.now() - pressedAt < 300) {
@@ -152,9 +172,9 @@ useEventListener('keyup', (event: KeyboardEvent) => {
       ref="micButton"
       class="mic"
       type="button"
-      :aria-pressed="voice === 'recording'"
+      :aria-pressed="voice === 'recording' || voice === 'live'"
       :class="{ 'is-playing': voice === 'playing' }"
-      title="对着风扇说话：开风扇后按住说「啊——」，松开播放（按住 V）"
+      :title="voiceMode === 'live' ? '对着风扇说话：开风扇、戴耳机，按住说「啊——」（按住 V）' : '对着风扇说话：开风扇后按住说「啊——」，松开播放（按住 V）'"
       @pointerdown.prevent="pressVoice"
       @pointerup="releaseVoice"
       @pointercancel="releaseVoice"
@@ -163,11 +183,19 @@ useEventListener('keyup', (event: KeyboardEvent) => {
       @keyup.space.enter="releaseVoice"
       @contextmenu.prevent
     >
-      <i-carbon-microphone v-if="voice === 'recording'" aria-hidden="true" />
+      <i-carbon-microphone v-if="voice === 'recording' || voice === 'live'" aria-hidden="true" />
       <i-carbon-volume-up v-else-if="voice === 'playing'" aria-hidden="true" />
       <i-carbon-microphone-off v-else aria-hidden="true" />
       {{ micLabel }}
     </button>
+    <span class="voice-mode" role="radiogroup" aria-label="说话方式">
+      <button type="button" role="radio" :aria-checked="voiceMode === 'live'" title="实时：边说边听，需要戴耳机" @click="setVoiceMode('live')">
+        <i-carbon-headphones aria-hidden="true" /> 实时
+      </button>
+      <button type="button" role="radio" :aria-checked="voiceMode === 'replay'" title="回放：松开后播放录音，外放也能听清" @click="setVoiceMode('replay')">
+        回放
+      </button>
+    </span>
     <span v-if="voiceTip" class="status__tip" role="status">{{ voiceTip }}</span>
     <span v-if="remaining" class="status__timer">
       <i-carbon-timer aria-hidden="true" />
