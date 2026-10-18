@@ -2,7 +2,7 @@
 
 > 夏日清凉小风扇：一台用 CSS 3D 搭出来的电风扇 Vue 组件，外加与框架无关的风扇状态机和电机模拟。
 
-[在线体验](https://fan.elpsy.cn) · [GitHub](https://github.com/ElpsyCN/electric-fan)
+[在线体验](https://fan.yunle.fun) · [GitHub](https://github.com/ElpsyCN/electric-fan)
 
 - **CSS 3D 风扇**：线稿风格，可拖动旋转视角、双击复位，不需要 WebGL
 - **像真风扇一样操作**：底座琴键调风速、发条式定时旋钮、机头顶部摇头钮

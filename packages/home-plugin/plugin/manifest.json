@@ -4,7 +4,7 @@
   "runtime": "sandbox",
   "name": "小风扇",
   "description": "夏日清凉小风扇：三档风速、摇头、自然风与定时关闭。",
-  "author": { "name": "ElpsyCN", "url": "https://fan.elpsy.cn" },
+  "author": { "name": "ElpsyCN", "url": "https://fan.yunle.fun" },
   "category": "climate",
   "symbol": "fan",
   "tint": "#06B6D4",

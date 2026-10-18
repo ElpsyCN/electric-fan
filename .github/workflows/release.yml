@@ -3,7 +3,7 @@ name: Release
 # Publishes @yunlefun-home/electric-fan (the Vue component and its /core state machine)
 # with npm trusted publishing (OIDC): no NPM_TOKEN secret, provenance is attached.
 # The package must list this repository and `release.yml` as a trusted publisher
-# on npmjs.com. Tags (v*) version the package, not the fan.elpsy.cn site.
+# on npmjs.com. Tags (v*) version the package, not the fan.yunle.fun site.
 
 on:
   push:
