@@ -6,6 +6,9 @@ export const fanSpinSeconds: Record<FanLevel, number> = { 0: 3, 1: 2, 2: 1.5, 3:
 /** Longest auto-off timer, one day. */
 export const maxFanTimerMinutes = 1440
 
+/** Presets a timer dial or button steps through, in minutes; `null` is no timer. */
+export const fanTimerPresets = [null, 30, 60, 120] as const
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object'
 }
@@ -145,4 +148,22 @@ export function fanSummary(state: FanState): string {
   if (!state.power)
     return '已关闭'
   return [`${state.speed} 档`, state.oscillating ? '摇头' : '定向', ...(state.natural ? ['自然风'] : [])].join(' · ')
+}
+
+/** Minutes left on the auto-off timer, or `null` when none is set. */
+export function fanTimerMinutesLeft(state: Pick<FanState, 'autoOffAt'>, now = Date.now()): number | null {
+  if (!state.autoOffAt)
+    return null
+  return Math.max(0, (Date.parse(state.autoOffAt) - now) / 60_000)
+}
+
+/**
+ * The preset after the one the timer is running down from, wrapping to no timer.
+ *
+ * @example 25 minutes left → 60; no timer → 30; 100 minutes left → no timer
+ */
+export function nextFanTimerMinutes(state: Pick<FanState, 'autoOffAt'>, now = Date.now()): number | null {
+  const left = fanTimerMinutesLeft(state, now)
+  const current = left === null ? 0 : fanTimerPresets.findIndex(preset => preset !== null && left <= preset)
+  return fanTimerPresets[(current === -1 ? 0 : current + 1) % fanTimerPresets.length]
 }

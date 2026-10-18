@@ -16,9 +16,9 @@ const description = '除了没有风，什么都好！'
     </h1>
 
     <Fan />
-    <FanControls />
+    <FanStatus />
     <p class="shortcuts">
-      <kbd>0</kbd>–<kbd>3</kbd> 风速 · <kbd>O</kbd> 摇头 · <kbd>N</kbd> 自然风 · <kbd>T</kbd> 定时 · <kbd>V</kbd> 2D/3D · <kbd>M</kbd> 静音
+      <kbd>0</kbd>–<kbd>3</kbd> 风速 · <kbd>O</kbd> 摇头 · <kbd>N</kbd> 自然风 · <kbd>T</kbd> 定时 · <kbd>M</kbd> 静音
     </p>
     <BaseFooter />
   </div>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createFanMotor, createFanState, expireFanTimer, fanLevel, fanMaxRevsPerSecond, fanMotorRatio, fanReducer, fanSummary, fanTargetSpeed, fanTone, fanYawAmplitude, isFanAction, isFanMotorAtRest, naturalBreeze, normalizeFanState, stepFanMotor } from '../src/core'
+import { createFanMotor, createFanState, expireFanTimer, fanLevel, fanMaxRevsPerSecond, fanMotorRatio, fanReducer, fanSummary, fanTargetSpeed, fanTimerMinutesLeft, fanTone, fanYawAmplitude, isFanAction, isFanMotorAtRest, naturalBreeze, nextFanTimerMinutes, normalizeFanState, stepFanMotor } from '../src/core'
 
 const changedAt = '2026-07-15T08:00:00.000Z'
 
@@ -47,6 +47,17 @@ describe('@yunlefun-home/electric-fan/core', () => {
     const timed = fanReducer(fanReducer(createFanState(changedAt), { type: 'toggle' }, changedAt), { type: 'set-timer', minutes: 1 }, changedAt)
     expect(expireFanTimer(timed, '2026-07-15T08:00:30.000Z')).toBe(timed)
     expect(expireFanTimer(timed, '2026-07-15T08:01:00.000Z')).toMatchObject({ power: false, autoOffAt: null })
+  })
+
+  it('steps through timer presets', () => {
+    const now = Date.parse(changedAt)
+    const at = (minutes: number | null) => ({ autoOffAt: minutes === null ? null : new Date(now + minutes * 60_000).toISOString() })
+    expect(nextFanTimerMinutes(at(null), now)).toBe(30)
+    expect(nextFanTimerMinutes(at(25), now)).toBe(60)
+    expect(nextFanTimerMinutes(at(60), now)).toBe(120)
+    expect(nextFanTimerMinutes(at(100), now)).toBe(null)
+    expect(fanTimerMinutesLeft(at(25), now)).toBe(25)
+    expect(fanTimerMinutesLeft(at(null), now)).toBe(null)
   })
 
   describe('motor', () => {

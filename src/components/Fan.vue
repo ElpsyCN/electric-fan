@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FanMotorFrame } from '@yunlefun-home/electric-fan'
 import { ElectricFan } from '@yunlefun-home/electric-fan'
-import { setHumLevel } from '~/composables'
-import { fanState, level, motorFrame, view, windRatio } from '~/stores'
+import { operate, setHumLevel } from '~/composables'
+import { fanState, level, motorFrame, windRatio } from '~/stores'
 import '@yunlefun-home/electric-fan/style.css'
 
 const wind = useTemplateRef<{ wake: () => void }>('wind')
@@ -25,23 +25,25 @@ function onMotor(frame: FanMotorFrame) {
 </script>
 
 <template>
-  <section class="stage" :class="`stage--${view}`">
+  <section class="stage">
     <div class="stage__fan">
       <FanWind ref="wind" />
       <ElectricFan
         :level="level"
         :oscillating="fanState.oscillating"
         :natural="fanState.natural"
-        :view="view"
+        :auto-off-at="fanState.autoOffAt"
+        controls
         title="电风扇"
+        @action="operate"
         @motor="onMotor"
       />
     </div>
-    <Transition name="fade">
-      <p v-if="view === '3d'" class="stage__hint">
-        <i-carbon-drag-horizontal aria-hidden="true" /> 拖动旋转视角 · 双击复位
-      </p>
-    </Transition>
+    <p class="stage__hint">
+      按底座琴键调风速 · 拧右侧旋钮定时 · 按机头顶钮摇头
+      <br>
+      <i-carbon-drag-horizontal aria-hidden="true" /> 拖动空白处旋转视角 · 双击复位
+    </p>
   </section>
 </template>
 
@@ -53,7 +55,7 @@ function onMotor(frame: FanMotorFrame) {
 
 .stage__fan {
   position: relative;
-  width: min(250px, 64vw);
+  width: min(320px, 84vw);
   margin: 0 auto;
 
   .electric-fan {
@@ -62,17 +64,13 @@ function onMotor(frame: FanMotorFrame) {
   }
 }
 
-.stage--3d .stage__fan {
-  width: min(280px, 72vw);
-}
-
 .stage__hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0.75rem 0 0;
+  margin: 1.75rem 0 0;
   font-size: 0.75rem;
+  line-height: 1.8;
   letter-spacing: 0.04em;
   color: var(--muted);
+
+  svg { vertical-align: -0.15em; }
 }
 </style>

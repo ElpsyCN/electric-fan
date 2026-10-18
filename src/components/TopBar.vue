@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { isDark, setAudioMuted, unlockAudio } from '~/composables'
-import { muted, view } from '~/stores'
+import { muted } from '~/stores'
 
 const toggleDark = useToggle(isDark)
 
@@ -18,24 +18,14 @@ useEventListener('keydown', (event: KeyboardEvent) => {
   if ((event.target as HTMLElement | null)?.closest('input, textarea, select, [contenteditable]'))
     return
   const key = event.key.toLowerCase()
-  if (key === 'v')
-    view.value = view.value === '3d' ? '2d' : '3d'
-  else if (key === 'm')
+  if (key === 'm')
     toggleMuted()
 })
 </script>
 
 <template>
   <header class="topbar">
-    <div class="segmented" role="radiogroup" aria-label="视图（V）">
-      <span class="segmented__thumb" :class="{ 'is-right': view === '3d' }" aria-hidden="true" />
-      <button type="button" role="radio" :aria-checked="view === '2d'" @click="view = '2d'">
-        2D
-      </button>
-      <button type="button" role="radio" :aria-checked="view === '3d'" @click="view = '3d'">
-        3D
-      </button>
-    </div>
+    <span class="topbar__brand">🍉 Electric Fan</span>
     <div class="topbar__actions">
       <button class="icon-toggle" type="button" :aria-pressed="!muted" :title="muted ? '打开声音（M）' : '静音（M）'" :aria-label="muted ? '打开声音' : '静音'" @click="toggleMuted">
         <i-carbon-volume-mute v-if="muted" />

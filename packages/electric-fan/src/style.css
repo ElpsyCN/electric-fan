@@ -5,6 +5,7 @@
 .electric-fan {
   --_fan: var(--fan-color, #333);
   --_fan-bg: var(--fan-bg-color, #fff);
+  --_accent: var(--fan-accent, #06b6d4);
   display: block;
   width: 100%;
   animation: electric-fan-enter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -14,34 +15,9 @@
   from { opacity: 0; transform: scale(0.94); }
 }
 
-/* --- 2D ------------------------------------------------------------------ */
+/* --- Scene ------------------------------------------------------------------ */
 
-.electric-fan--2d {
-  height: auto;
-  overflow: visible;
-}
-
-.electric-fan__shadow { fill: var(--_fan); opacity: 0.08; }
-.electric-fan__base,
-.electric-fan__neck { fill: var(--_fan); }
-.electric-fan__face { fill: var(--_fan-bg); }
-.electric-fan__ring { fill: none; stroke: var(--_fan); stroke-width: 10; }
-.electric-fan__grille { fill: none; stroke: var(--_fan); stroke-width: 1.6; opacity: 0.28; }
-.electric-fan__blur { fill: var(--_fan); opacity: 0; }
-.electric-fan__ghosts { fill: none; stroke: var(--_fan); stroke-width: 8; stroke-linejoin: round; }
-.electric-fan__ghosts > g { opacity: 0; }
-.electric-fan__blade { fill: var(--_fan-bg); stroke: var(--_fan); stroke-width: 8; stroke-linejoin: round; }
-.electric-fan__hub { fill: var(--_fan-bg); stroke: var(--_fan); stroke-width: 6; }
-
-/* The head turns around the neck, a fixed point of the drawing. */
-.electric-fan__head {
-  transform-box: view-box;
-  transform-origin: 120px 248px;
-}
-
-/* --- 3D ------------------------------------------------------------------ */
-
-.electric-fan--3d {
+.electric-fan {
   position: relative;
   aspect-ratio: 240 / 312;
   container-type: inline-size;
@@ -50,10 +26,12 @@
   user-select: none;
 }
 
-.electric-fan--3d.is-orbitable { cursor: grab; }
-.electric-fan--3d.is-dragging { cursor: grabbing; }
+.electric-fan.is-orbitable { cursor: grab; }
+.electric-fan.is-dragging { cursor: grabbing; }
 
-.electric-fan--3d div {
+.electric-fan div,
+.electric-fan button,
+.electric-fan span {
   position: absolute;
   left: 0;
   top: 0;
@@ -61,7 +39,13 @@
   transform-style: preserve-3d;
 }
 
-.electric-fan--3d svg {
+/* Only the controls catch the pointer; drags on anything else orbit the camera. */
+.electric-fan div,
+.electric-fan svg { pointer-events: none; }
+.electric-fan button,
+.electric-fan button * { pointer-events: auto; }
+
+.electric-fan svg {
   position: absolute;
   inset: 0;
   display: block;
@@ -165,11 +149,123 @@
   opacity: 0.85;
 }
 
-.electric-fan--3d.is-running .ef3d__badge::after {
-  background: var(--fan-accent, var(--_fan));
+.electric-fan.is-running .ef3d__badge::after {
+  background: var(--_accent);
+}
+
+.ef3d__nameplate {
+  display: grid;
+  place-items: center;
+  color: var(--_fan-bg);
+  font: 700 calc(var(--u) * 9) / 1 ui-monospace, monospace;
+  letter-spacing: 0.3em;
+  opacity: 0.35;
+}
+
+/* --- Controls --------------------------------------------------------------- */
+
+.electric-fan button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.electric-fan button:disabled { cursor: inherit; }
+
+.electric-fan button:focus-visible {
+  outline: calc(var(--u) * 1.5) solid var(--_accent);
+  outline-offset: calc(var(--u) * 1.5);
+}
+
+/* Piano keys: the button is the key's front face. */
+.ef3d__key {
+  --sink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: calc(var(--u) * 2);
+  background: var(--_fan-bg);
+  color: var(--_fan);
+  transition: transform 0.12s ease-out, background-color 0.2s, color 0.2s;
+}
+
+.ef3d__key.is-down,
+.ef3d__key:not(:disabled):active { --sink: 1; }
+
+.ef3d__key.is-down { background: color-mix(in srgb, var(--_accent) 30%, var(--_fan-bg)); }
+
+.ef3d__key-label {
+  position: static !important;
+  font: 700 calc(var(--u) * 8) / 1 ui-monospace, monospace;
+}
+
+.ef3d__key.is-wide .ef3d__key-label {
+  font-size: calc(var(--u) * 6);
+  letter-spacing: -0.05em;
+}
+
+.ef3d__key-face {
+  top: 0;
+  background-color: var(--_fan-bg);
+  transform-origin: 0 0;
+  transform-style: flat !important;
+}
+
+.ef3d__key-face--top {
+  border-radius: calc(var(--u) * 2);
+  transform: rotateX(-90deg);
+}
+
+.ef3d__key-face--left,
+.ef3d__key-face--right { transform: rotateY(90deg); }
+
+.ef3d__key.is-down .ef3d__key-face--top { background-color: color-mix(in srgb, var(--_accent) 30%, var(--_fan-bg)); }
+
+/* Round controls: the button is the cap, its side hangs below. */
+.ef3d__dial,
+.ef3d__knob {
+  border-radius: 50%;
+  background: var(--_fan-bg);
+  box-shadow: inset 0 0 0 calc(var(--u) * 1.5) var(--_fan);
+}
+
+.ef3d__dial { transition: transform 0.6s cubic-bezier(0.3, 1.3, 0.5, 1); }
+
+/* Pointer notch. */
+.ef3d__dial::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: calc(var(--u) * 2);
+  height: 38%;
+  margin-left: calc(var(--u) * -1);
+  border-radius: calc(var(--u) * 1);
+  background: var(--_fan);
+}
+
+.ef3d__knob { transition: transform 0.25s cubic-bezier(0.3, 1.4, 0.5, 1); }
+.ef3d__knob.is-up { background: color-mix(in srgb, var(--_accent) 30%, var(--_fan-bg)); }
+
+.ef3d__knob-side { background-color: var(--_fan-bg); }
+
+.ef3d__knob.is-up .ef3d__knob-side { background-color: color-mix(in srgb, var(--_accent) 30%, var(--_fan-bg)); }
+
+.ef3d__dial-scale {
+  stroke: var(--_fan-bg);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.5;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .electric-fan { animation: none; }
-  .ef3d__camera.is-resetting { transition: none; }
+  .ef3d__camera.is-resetting,
+  .ef3d__key,
+  .ef3d__dial,
+  .ef3d__knob { transition: none; }
 }

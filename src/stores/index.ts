@@ -1,11 +1,7 @@
-import type { FanView } from '@yunlefun-home/electric-fan'
 import type { FanAction, FanState } from '@yunlefun-home/electric-fan/core'
 import { useStorage } from '@vueuse/core'
-import { createFanState, expireFanTimer, fanLevel, fanReducer } from '@yunlefun-home/electric-fan/core'
+import { createFanState, expireFanTimer, fanLevel, fanReducer, nextFanTimerMinutes } from '@yunlefun-home/electric-fan/core'
 import { computed, shallowRef } from 'vue'
-
-/** Timer presets cycled by the 定时 button, in minutes; `null` is no timer. */
-export const timerSteps = [null, 30, 60, 120] as const
 
 // The site starts with the head sweeping, as the fan always did.
 const fan = shallowRef<FanState>({ ...createFanState(), oscillating: true })
@@ -23,15 +19,11 @@ export function expireTimer() {
   fan.value = expireFanTimer(fan.value)
 }
 
-/** Advance to the next timer preset, from whichever one is closest to the time left. */
-export function cycleTimer(now = Date.now()) {
-  const left = fan.value.autoOffAt ? (Date.parse(fan.value.autoOffAt) - now) / 60_000 : null
-  const current = left === null ? 0 : timerSteps.findIndex(step => step !== null && left <= step)
-  const next = timerSteps[(current === -1 ? 0 : current + 1) % timerSteps.length]
-  dispatch({ type: 'set-timer', minutes: next })
+/** Advance the timer to its next preset, as turning the dial does. */
+export function cycleTimer() {
+  dispatch({ type: 'set-timer', minutes: nextFanTimerMinutes(fan.value) })
 }
 
-export const view = useStorage<FanView>('electric-fan:view', '3d')
 export const muted = useStorage('electric-fan:muted', false)
 
 /**

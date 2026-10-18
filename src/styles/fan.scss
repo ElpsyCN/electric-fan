@@ -7,44 +7,26 @@
   }
 }
 
-// Front-switch keys, pressed in like a real fan's piano keys.
+// Round keycap, used by the sponsor link in the footer.
 .fan-btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   border-radius: 50%;
-  width: 3.25rem;
-  height: 3.25rem;
   border: 2px solid var(--fan-color);
-  border-bottom-width: 0.3rem;
+  border-bottom-width: 0.25rem;
   background: var(--fan-bg-color);
   color: var(--fan-color);
-  margin: 0.4rem;
-  font-size: 1.05rem;
-  cursor: pointer;
-  font-family: ui-monospace, monospace;
-  font-weight: bold;
   text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.12s, border-bottom-width 0.12s, background-color 0.2s, color 0.2s, box-shadow 0.3s;
+  transition: transform 0.12s, border-bottom-width 0.12s, background-color 0.2s;
   @include focus-ring;
 
-  &:hover {
-    color: var(--fan-bg-color);
-    background-color: var(--fan-color);
-  }
+  &:hover { background-color: var(--line); }
 
-  &.is-active,
   &:active {
-    color: var(--fan-bg-color);
-    background-color: var(--fan-color);
-    transform: translateY(0.3rem);
+    transform: translateY(0.2rem);
     border-bottom-width: 2px;
-  }
-
-  &.is-active:not(:first-child) {
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 35%, transparent);
   }
 }
 
@@ -55,80 +37,34 @@
   opacity: 0.86;
 }
 
-// --- Console ------------------------------------------------------------------
+// --- Status -------------------------------------------------------------------
 
-.console {
-  display: grid;
-  justify-items: center;
-  gap: 0.9rem;
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.9rem;
   width: fit-content;
   max-width: 100%;
-  margin: 1rem auto 0;
-  padding: 1rem 1.25rem 0.9rem;
+  margin: 0.75rem auto 0;
+  padding: 0.5rem 1rem;
   border: 1px solid var(--line);
-  border-radius: 1.5rem;
+  border-radius: 999px;
   background: var(--surface);
   backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 0.35);
-}
-
-.console__keys {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.console__chips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  height: 2.1rem;
-  padding: 0 0.85rem;
-  border: 1.5px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text);
-  font: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-  @include focus-ring;
-
-  &:hover { border-color: var(--fan-color); }
-
-  &[aria-pressed='true'] {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 16%, transparent);
-    color: var(--text);
-
-    svg { color: var(--accent); }
-  }
-}
-
-.chip__value {
-  font-variant-numeric: tabular-nums;
-}
-
-.console__status {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-height: 1.25rem;
   font-size: 0.8rem;
   color: var(--muted);
 }
 
-.console__summary {
-  min-width: 9em;
-  text-align: right;
+.status__timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+
+  svg { color: var(--accent); }
 }
 
 .meter {
@@ -156,6 +92,13 @@
   padding-top: 1rem;
 }
 
+.topbar__brand {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
 .topbar__actions {
   display: flex;
   gap: 0.25rem;
@@ -181,49 +124,3 @@
   }
 }
 
-.segmented {
-  position: relative;
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 3px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-
-  button {
-    position: relative;
-    z-index: 1;
-    width: 3rem;
-    height: 1.9rem;
-    border: 0;
-    border-radius: 999px;
-    background: transparent;
-    color: var(--muted);
-    font: inherit;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: color 0.25s;
-    @include focus-ring;
-
-    &[aria-checked='true'] { color: var(--fan-bg-color); }
-  }
-}
-
-.segmented__thumb {
-  position: absolute;
-  top: 3px;
-  bottom: 3px;
-  left: 3px;
-  width: 3rem;
-  border-radius: 999px;
-  background: var(--fan-color);
-  transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1);
-
-  &.is-right { transform: translateX(100%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .segmented__thumb { transition: none; }
-}
