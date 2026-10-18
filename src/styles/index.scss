@@ -1,11 +1,78 @@
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Avenir Next", Avenir, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--text);
 }
+
+.page {
+  position: relative;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+  overflow-x: clip;
+}
+
+.headline {
+  margin: 1.25rem 0 0;
+  font-size: clamp(1.75rem, 6vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+// "Except there's no wind" – the words flutter as the wind picks up.
+.headline__sub {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+
+  span {
+    display: inline-block;
+    animation: wind-flutter 0.9s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * -0.13s);
+  }
+}
+
+@keyframes wind-flutter {
+  from { transform: translateY(0) rotate(0); }
+  to { transform: translate(calc(var(--wind, 0) * 3px), calc(var(--wind, 0) * -4px)) rotate(calc(var(--wind, 0) * 9deg)); }
+}
+
+.shortcuts {
+  margin: 1.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+
+  kbd {
+    display: inline-block;
+    min-width: 1.4em;
+    padding: 0 0.3em;
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 0.3em;
+    font-family: ui-monospace, monospace;
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+}
+
+@media (hover: none) {
+  .shortcuts { display: none; }
+}
+
+.fade-enter-active,
+.fade-leave-active { transition: opacity 0.3s; }
+.fade-enter-from,
+.fade-leave-to { opacity: 0; }
 
 .animate-logo {
   animation: iconAnimate 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headline__sub span { animation: none; }
 }

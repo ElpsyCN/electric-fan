@@ -20,6 +20,15 @@
         { "value": false, "label": "定向", "symbol": "arrow.up", "action": { "type": "set-oscillation", "oscillating": false } },
         { "value": true, "label": "摇头", "symbol": "arrow.left.and.right", "action": { "type": "set-oscillation", "oscillating": true } }
       ]
+    },
+    {
+      "type": "segmented",
+      "bind": "natural",
+      "label": "风型",
+      "options": [
+        { "value": false, "label": "直吹", "symbol": "wind", "action": { "type": "set-natural", "natural": false } },
+        { "value": true, "label": "自然风", "symbol": "leaf", "action": { "type": "set-natural", "natural": true } }
+      ]
     }
   ]
 }

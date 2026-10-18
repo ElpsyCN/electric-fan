@@ -1,41 +1,32 @@
-// Front-switch buttons; the fan drawing lives in @yunlefun-home/electric-fan.
+// Site controls; the fan drawing lives in @yunlefun-home/electric-fan.
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+// Round keycap, used by the sponsor link in the footer.
 .fan-btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
   border: 2px solid var(--fan-color);
   border-bottom-width: 0.25rem;
-  background: transparent;
+  background: var(--fan-bg-color);
   color: var(--fan-color);
-  margin: 0.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  font-family: monospace;
-  font-weight: bold;
   text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: 0.2s;
+  transition: transform 0.12s, border-bottom-width 0.12s, background-color 0.2s;
+  @include focus-ring;
 
-  &:hover {
-    color: var(--fan-bg-color);
-    background-color: var(--fan-color);
-  }
+  &:hover { background-color: var(--line); }
 
-  &:focus-visible {
-    outline: 3px solid var(--fan-color);
-    outline-offset: 0.25rem;
-  }
-
-  &.is-active,
   &:active {
-    color: var(--fan-bg-color);
-    background-color: var(--fan-color);
-    transform: translateY(0.32rem);
-    border-bottom-width: 1px;
+    transform: translateY(0.2rem);
+    border-bottom-width: 2px;
   }
 }
 
@@ -45,3 +36,91 @@
   font-size: 0.9rem;
   opacity: 0.86;
 }
+
+// --- Status -------------------------------------------------------------------
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.9rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.75rem auto 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.status__timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+
+  svg { color: var(--accent); }
+}
+
+.meter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.9rem;
+}
+
+.meter__bar {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--line);
+  transition: background-color 0.15s;
+
+  &.is-lit { background: var(--accent); }
+}
+
+// --- Top bar ------------------------------------------------------------------
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.topbar__brand {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.topbar__actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.icon-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+  @include focus-ring;
+
+  &:hover {
+    color: var(--text);
+    background: var(--line);
+  }
+}
+

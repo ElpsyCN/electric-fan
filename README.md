@@ -15,8 +15,13 @@
 ### 优势
 
 - 随时随地打开风扇
+- CSS 3D 立体风扇，可拖动旋转视角
+- 像真风扇一样操作：底座琴键调风速、旋钮定时、机头顶钮摇头
+- 有惯性的电机：开机逐渐加速，关机滑行减速（牛顿表示满意）
+- 自然风模式：风速随阵风起伏
+- 摇头、定时关闭，风声音调随转速变化
 - 便携
-- 低功耗（使用 SVG 而非 Canvas 绘制）
+- 低功耗（纯 CSS 3D 绘制，无需 WebGL）
 - 操作简单
 - 安装便捷
 
@@ -30,8 +35,8 @@
 
 | 包 | 说明 |
 | --- | --- |
-| [`@yunlefun-home/electric-fan`](packages/electric-fan) | SVG 电风扇 Vue 组件，可用 `--fan-color` / `--fan-bg-color` 换肤 |
-| `@yunlefun-home/electric-fan/core` | 同一个包的子路径：与框架无关的风扇状态机（开关、三档风速、摇头、定时关闭），不引入 Vue，`vue` 为可选 peer 依赖 |
+| [`@yunlefun-home/electric-fan`](packages/electric-fan) | CSS 3D 电风扇 Vue 组件，开启 `controls` 后底座琴键、定时旋钮、摇头钮都可点按；可用 `--fan-color` / `--fan-bg-color` / `--fan-accent` 换肤 |
+| `@yunlefun-home/electric-fan/core` | 同一个包的子路径：与框架无关的风扇状态机（开关、三档风速、摇头、自然风、定时关闭）与电机模拟（`stepFanMotor`），不引入 Vue，`vue` 为可选 peer 依赖 |
 | [`packages/home-plugin`](packages/home-plugin) | Yun Home 设备插件 `electric-fan.yunplugin`，在原生 App 的沙箱中运行，控件由宿主原生渲染 |
 
 ```ts
@@ -39,6 +44,17 @@ import { ElectricFan } from '@yunlefun-home/electric-fan' // Vue 组件，同时
 import { fanReducer } from '@yunlefun-home/electric-fan/core' // 不依赖 Vue
 import '@yunlefun-home/electric-fan/style.css'
 ```
+
+```vue
+<ElectricFan
+  :level="fanLevel(fan)" :oscillating="fan.oscillating" :natural="fan.natural" :auto-off-at="fan.autoOffAt"
+  controls title="电风扇"
+  @action="action => fan = fanReducer(fan, action)"
+  @motor="frame => console.log(frame.ratio)"
+/>
+```
+
+`@action` 在点按风扇上的控件时触发，参数是可直接交给 `fanReducer` 的 `FanAction`；`@motor` 在风扇转动时逐帧触发，`ratio` 为当前转速占最高转速的比例（0–1），可用来驱动声音或风效。
 
 ```bash
 pnpm install

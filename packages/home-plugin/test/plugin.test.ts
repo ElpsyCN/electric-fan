@@ -12,6 +12,13 @@ describe('electric fan home plugin', () => {
     state = plugin.reduce(state, { type: 'set-oscillation', oscillating: true })
     expect(state).toMatchObject({ power: true, speed: 2, oscillating: true })
     expect(plugin.present(state)).toEqual({ active: true, tone: 'active', summary: '2 档 · 摇头' })
+    state = plugin.reduce(state, { type: 'set-natural', natural: true })
+    expect(plugin.present(state).summary).toBe('2 档 · 摇头 · 自然风')
+  })
+
+  it('reads states saved before natural wind existed', () => {
+    const { natural: _, ...legacy } = plugin.create()
+    expect(plugin.normalize(legacy).natural).toBe(false)
   })
 
   it('applies expired timers when read', () => {
@@ -21,7 +28,7 @@ describe('electric fan home plugin', () => {
 
   it('only declares actions the plugin accepts', () => {
     const actions = controls.controls.flatMap((control: Record<string, any>) => [control.action, ...(control.options ?? []).map((option: Record<string, unknown>) => option.action)]).filter(Boolean)
-    expect(actions.length).toBe(6)
+    expect(actions.length).toBe(8)
     for (const action of actions)
       expect(plugin.isAction(action)).toBe(true)
   })

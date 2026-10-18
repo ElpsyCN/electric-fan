@@ -6,8 +6,18 @@ body,
   padding: 0;
 }
 
-html.dark {
-  background: #121212;
+html,
+body {
+  background:
+    radial-gradient(60rem 36rem at 50% 18rem, var(--page-glow), transparent 70%),
+    var(--page-bg);
+  background-attachment: fixed;
+  color-scheme: light;
+}
+
+html.dark,
+html.dark body {
+  color-scheme: dark;
 }
 
 #nprogress {

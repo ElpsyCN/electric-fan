@@ -1,10 +1,13 @@
 import type { FanAction, FanLevel, FanState, FanTone } from './types'
 
-/** Seconds per blade revolution at each level; level 0 spins down. */
+/** Seconds per blade revolution at each level; level 0 is the old coast-down time, kept for compatibility. */
 export const fanSpinSeconds: Record<FanLevel, number> = { 0: 3, 1: 2, 2: 1.5, 3: 0.8 }
 
 /** Longest auto-off timer, one day. */
 export const maxFanTimerMinutes = 1440
+
+/** Presets a timer dial or button steps through, in minutes; `null` is no timer. */
+export const fanTimerPresets = [null, 30, 60, 120] as const
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object'
@@ -38,7 +41,7 @@ function isTimerMinutes(value: unknown): boolean {
  * @param changedAt - ISO timestamp of the state change
  */
 export function createFanState(changedAt = new Date().toISOString()): FanState {
-  return { power: false, speed: 1, oscillating: false, autoOffAt: null, stateChangedAt: changedAt }
+  return { power: false, speed: 1, oscillating: false, natural: false, autoOffAt: null, stateChangedAt: changedAt }
 }
 
 /**
@@ -54,6 +57,7 @@ export function normalizeFanState(value: unknown): FanState {
     power: typeof value.power === 'boolean' ? value.power : false,
     speed: (value.speed === 2 || value.speed === 3) ? value.speed : 1,
     oscillating: typeof value.oscillating === 'boolean' ? value.oscillating : false,
+    natural: typeof value.natural === 'boolean' ? value.natural : false,
     autoOffAt: normalizeNullableDate(value.autoOffAt),
     stateChangedAt: normalizeDate(value.stateChangedAt),
   }
@@ -80,6 +84,10 @@ export function fanReducer(state: FanState, action: FanAction, now = new Date().
       return { ...state, oscillating: !state.oscillating, stateChangedAt: now }
     case 'set-oscillation':
       return { ...state, oscillating: action.oscillating, stateChangedAt: now }
+    case 'toggle-natural':
+      return { ...state, natural: !state.natural, stateChangedAt: now }
+    case 'set-natural':
+      return { ...state, natural: action.natural, stateChangedAt: now }
     case 'set-timer':
       return { ...state, autoOffAt: timerDate(action.minutes, now), stateChangedAt: now }
   }
@@ -96,6 +104,7 @@ export function isFanAction(value: unknown): value is FanAction {
   switch (value.type) {
     case 'toggle':
     case 'toggle-oscillation':
+    case 'toggle-natural':
       return true
     case 'set-speed':
       return value.speed === 1 || value.speed === 2 || value.speed === 3
@@ -103,6 +112,8 @@ export function isFanAction(value: unknown): value is FanAction {
       return value.level === 0 || value.level === 1 || value.level === 2 || value.level === 3
     case 'set-oscillation':
       return typeof value.oscillating === 'boolean'
+    case 'set-natural':
+      return typeof value.natural === 'boolean'
     case 'set-timer':
       return isTimerMinutes(value.minutes)
     default:
@@ -132,9 +143,27 @@ export function fanTone(state: Pick<FanState, 'power'>): FanTone {
   return state.power ? 'active' : 'idle'
 }
 
-/** One-line status, e.g. "2 档 · 摇头". */
+/** One-line status, e.g. "2 档 · 摇头" or "2 档 · 摇头 · 自然风". */
 export function fanSummary(state: FanState): string {
   if (!state.power)
     return '已关闭'
-  return `${state.speed} 档 · ${state.oscillating ? '摇头' : '定向'}`
+  return [`${state.speed} 档`, state.oscillating ? '摇头' : '定向', ...(state.natural ? ['自然风'] : [])].join(' · ')
+}
+
+/** Minutes left on the auto-off timer, or `null` when none is set. */
+export function fanTimerMinutesLeft(state: Pick<FanState, 'autoOffAt'>, now = Date.now()): number | null {
+  if (!state.autoOffAt)
+    return null
+  return Math.max(0, (Date.parse(state.autoOffAt) - now) / 60_000)
+}
+
+/**
+ * The preset after the one the timer is running down from, wrapping to no timer.
+ *
+ * @example 25 minutes left → 60; no timer → 30; 100 minutes left → no timer
+ */
+export function nextFanTimerMinutes(state: Pick<FanState, 'autoOffAt'>, now = Date.now()): number | null {
+  const left = fanTimerMinutesLeft(state, now)
+  const current = left === null ? 0 : fanTimerPresets.findIndex(preset => preset !== null && left <= preset)
+  return fanTimerPresets[(current === -1 ? 0 : current + 1) % fanTimerPresets.length]
 }
