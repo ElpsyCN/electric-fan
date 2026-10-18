@@ -7,6 +7,16 @@
   --_fan-bg: var(--fan-bg-color, #fff);
   display: block;
   width: 100%;
+  animation: electric-fan-enter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes electric-fan-enter {
+  from { opacity: 0; transform: scale(0.94); }
+}
+
+/* --- 2D ------------------------------------------------------------------ */
+
+.electric-fan--2d {
   height: auto;
   overflow: visible;
 }
@@ -17,29 +27,149 @@
 .electric-fan__face { fill: var(--_fan-bg); }
 .electric-fan__ring { fill: none; stroke: var(--_fan); stroke-width: 10; }
 .electric-fan__grille { fill: none; stroke: var(--_fan); stroke-width: 1.6; opacity: 0.28; }
+.electric-fan__blur { fill: var(--_fan); opacity: 0; }
+.electric-fan__ghosts { fill: none; stroke: var(--_fan); stroke-width: 8; stroke-linejoin: round; }
+.electric-fan__ghosts > g { opacity: 0; }
 .electric-fan__blade { fill: var(--_fan-bg); stroke: var(--_fan); stroke-width: 8; stroke-linejoin: round; }
 .electric-fan__hub { fill: var(--_fan-bg); stroke: var(--_fan); stroke-width: 6; }
 
-/* Both pivots are fixed points of the drawing, not the groups' bounding boxes. */
-.electric-fan__blades {
-  transform-box: view-box;
-  transform-origin: 120px 120px;
-}
-
+/* The head turns around the neck, a fixed point of the drawing. */
 .electric-fan__head {
   transform-box: view-box;
   transform-origin: 120px 248px;
 }
 
-.electric-fan.is-oscillating .electric-fan__head {
-  animation: electric-fan-sway 4s ease-in-out infinite;
+/* --- 3D ------------------------------------------------------------------ */
+
+.electric-fan--3d {
+  position: relative;
+  aspect-ratio: 240 / 312;
+  container-type: inline-size;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-@keyframes electric-fan-sway {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
+.electric-fan--3d.is-orbitable { cursor: grab; }
+.electric-fan--3d.is-dragging { cursor: grabbing; }
+
+.electric-fan--3d div {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+
+.electric-fan--3d svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* One drawing unit: the 2D viewBox is 240 wide. */
+.ef3d__stage {
+  --u: calc(100cqw / 240);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  perspective: calc(var(--u) * 900);
+  perspective-origin: 50% 38%;
+}
+
+.ef3d__camera {
+  width: calc(var(--u) * 240);
+  height: calc(var(--u) * 312);
+  transform-origin: 50% calc(var(--u) * 200) calc(var(--u) * -40);
+}
+
+.ef3d__camera.is-resetting { transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+.ef3d__floor {
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--_fan) 22%, transparent), transparent);
+}
+
+.ef3d__solid { background-color: var(--_fan); }
+.ef3d__shell { background-color: var(--_fan-bg); }
+
+.ef3d__base-top {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgb(255 255 255 / 0.16), transparent 60%),
+    var(--_fan);
+}
+
+.ef3d__head {
+  width: calc(var(--u) * 240);
+  height: calc(var(--u) * 240);
+  transform-origin: 50% 50% calc(var(--u) * -40);
+}
+
+.ef3d__cap,
+.ef3d__hub,
+.ef3d__badge {
+  border-radius: 50%;
+  border: calc(var(--u) * 3) solid var(--_fan);
+  background: var(--_fan-bg);
+}
+
+.ef3d__knob {
+  border-radius: 50%;
+  background: var(--_fan);
+}
+
+.ef3d__rear {
+  fill: none;
+  stroke: var(--_fan);
+  stroke-width: 1.6;
+  opacity: 0.22;
+}
+
+.ef3d__ring {
+  border-radius: 50%;
+  border-style: solid;
+  border-color: var(--_fan);
+}
+
+.ef3d__spoke {
+  background: var(--_fan);
+  opacity: 0.4;
+}
+
+.ef3d__blur {
+  border-radius: 50%;
+  background: var(--_fan);
+  opacity: 0;
+}
+
+.ef3d__blade svg {
+  fill: var(--_fan-bg);
+  stroke: var(--_fan);
+  stroke-width: 6;
+  stroke-linejoin: round;
+}
+
+.ef3d__spinner--ghost { opacity: 0; }
+.ef3d__spinner--ghost .ef3d__blade svg { fill: none; }
+
+.ef3d__badge::after {
+  content: '';
+  position: absolute;
+  inset: 28%;
+  border-radius: 50%;
+  background: var(--_fan);
+  opacity: 0.85;
+}
+
+.electric-fan--3d.is-running .ef3d__badge::after {
+  background: var(--fan-accent, var(--_fan));
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .electric-fan.is-oscillating .electric-fan__head { animation: none; }
+  .electric-fan { animation: none; }
+  .ef3d__camera.is-resetting { transition: none; }
 }

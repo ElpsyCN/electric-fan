@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun-home/electric-fan",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "SVG electric fan for Vue, plus the framework-agnostic fan state machine (/core) shared by the fan site and Yun Home.",
   "author": {
     "email": "me@yunyoujun.cn",

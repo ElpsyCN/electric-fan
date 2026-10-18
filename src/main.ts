@@ -8,6 +8,7 @@ import App from './App.vue'
 import './styles/vars.scss'
 import './styles/main.scss'
 import './styles/index.scss'
+import './styles/fan.scss'
 
 import 'virtual:uno.css'
 import 'virtual:unocss-devtools'

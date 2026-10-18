@@ -1,9 +1,25 @@
 :root {
-  --fan-color: #333;
-  --fan-bg-color: white;
+  --fan-color: #2a2f35;
+  --fan-bg-color: #fff;
+  --fan-accent: #06b6d4;
+  --accent: #06b6d4;
+  --text: #2a2f35;
+  --muted: rgb(42 47 53 / 0.55);
+  --line: rgb(42 47 53 / 0.12);
+  --surface: rgb(255 255 255 / 0.72);
+  --page-bg: #f6fbfc;
+  --page-glow: rgb(6 182 212 / 0.14);
 }
 
 html.dark {
-  --fan-color: white;
-  --fan-bg-color: #333;
+  --fan-color: #eef2f4;
+  --fan-bg-color: #262b31;
+  --fan-accent: #22d3ee;
+  --accent: #22d3ee;
+  --text: #eef2f4;
+  --muted: rgb(238 242 244 / 0.55);
+  --line: rgb(238 242 244 / 0.14);
+  --surface: rgb(32 37 43 / 0.72);
+  --page-bg: #121519;
+  --page-glow: rgb(34 211 238 / 0.1);
 }
