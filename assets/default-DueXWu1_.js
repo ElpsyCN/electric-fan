@@ -1,0 +1,1 @@
+import{a as e,i as t,o as n,r,t as i}from"./index-iXT9TR1K.js";var a={},o={class:`text-center`};function s(i,a){let s=n(`router-view`);return e(),r(`main`,o,[t(s)])}var c=i(a,[[`render`,s]]);export{c as default};
