@@ -13,6 +13,7 @@ let clickBuffer: AudioBuffer | undefined
 let loading: Promise<void> | undefined
 let level = 0
 let isMuted = false
+let ducked = false
 
 async function load(ctx: AudioContext, url: string) {
   const response = await fetch(url)
@@ -91,7 +92,7 @@ export function setHumLevel(ratio: number) {
   if (audible > 0.005)
     startHum()
   const now = context.currentTime
-  gain.gain.setTargetAtTime(0.85 * audible ** 1.3, now, 0.06)
+  gain.gain.setTargetAtTime(0.85 * audible ** 1.3 * (ducked ? 0.25 : 1), now, 0.06)
   hum?.playbackRate.setTargetAtTime(0.6 + 0.4 * ratio, now, 0.06)
   if (audible <= 0.005)
     stopHum()
@@ -99,5 +100,11 @@ export function setHumLevel(ratio: number) {
 
 export function setAudioMuted(value: boolean) {
   isMuted = value
+  setHumLevel(level)
+}
+
+/** Turn the hum down while something else, like a voice clip, needs to be heard. */
+export function duckHum(value: boolean) {
+  ducked = value
   setHumLevel(level)
 }

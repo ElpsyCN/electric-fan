@@ -50,6 +50,10 @@
   color: var(--muted);
   font: inherit;
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   transition: color 0.2s, border-color 0.2s, background-color 0.2s;
   @include focus-ring;
 
@@ -59,7 +63,8 @@
   }
 
   // A ring that swells with your voice.
-  &[aria-pressed='true'] {
+  &[aria-pressed='true'],
+  &.is-playing {
     border-color: var(--accent);
     color: var(--text);
     background: color-mix(in srgb, var(--accent) 14%, transparent);
@@ -69,8 +74,9 @@
   }
 }
 
-.status__error {
-  color: #e11d48;
+.status__tip {
+  flex-basis: 100%;
+  color: var(--text);
 }
 
 .meter {
