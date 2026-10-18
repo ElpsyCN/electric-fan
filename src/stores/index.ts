@@ -26,6 +26,10 @@ export function cycleTimer() {
 
 export const muted = useStorage('electric-fan:muted', false)
 
+/** How talking into the fan is heard: live through headphones, or recorded and replayed. */
+export type VoiceMode = 'live' | 'replay'
+export const voiceMode = useStorage<VoiceMode>('electric-fan:voice-mode', 'live')
+
 /**
  * Latest simulated motor frame, written every animation frame. Plain object on
  * purpose: canvas and audio loops read it without triggering Vue renders.

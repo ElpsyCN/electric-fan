@@ -1,9 +1,11 @@
-// Talk into the fan, walkie-talkie style: hold to record, release to hear the
-// clip played back through the blades. A gain chopped at the blade-pass rate
-// gives the warble every kid made shouting "啊——" at a fan; faster blades chop
-// faster. Played back rather than monitored live, so your own voice in the
-// room cannot mask it and the speakers cannot feed back. Audio stays on this
-// device.
+// Talk into the fan. A gain chopped at the blade-pass rate gives the warble
+// every kid made shouting "啊——" at a fan; faster blades chop faster.
+// Two ways to hear it:
+// - live: the mic goes straight through the blades while held, like a real
+//   fan. Needs headphones, or your own voice in the room masks it and the
+//   speakers feed back.
+// - replay: walkie-talkie style, hold to record and release to hear the clip.
+// Audio stays on this device.
 
 import { audioContext, duckHum, unlockAudio } from './audio'
 
@@ -64,9 +66,32 @@ export async function prepareVoice() {
     throw new Error('Recording is not supported')
   if (isVoiceReady())
     return
-  stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: true, autoGainControl: true } })
+  // No echo cancellation: it would fight the live playback. Ask for the
+  // shortest capture buffer the device offers.
+  stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: true, autoGainControl: true, latency: { ideal: 0.01 } } as MediaTrackConstraints })
   input = ctx.createMediaStreamSource(stream)
   input.connect(ensureMeter(ctx))
+}
+
+/** Route the microphone through the blades until {@link stopLive}. */
+export function startLive() {
+  const ctx = audioContext()
+  if (!ctx || !input)
+    return false
+  stopPlayback()
+  input.connect(ensureChain(ctx))
+  duckHum(true)
+  return true
+}
+
+export function stopLive() {
+  if (input && chop) {
+    try {
+      input.disconnect(chop)
+    }
+    catch {}
+  }
+  duckHum(false)
 }
 
 /** Start recording; `onLimit` fires if the clip hits its maximum length. */
@@ -130,6 +155,7 @@ function stopPlayback() {
 /** Close the microphone and stop any clip. */
 export function stopVoice() {
   cancelRecording()
+  stopLive()
   stopPlayback()
   stream?.getTracks().forEach(track => track.stop())
   input?.disconnect()
