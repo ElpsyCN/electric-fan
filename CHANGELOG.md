@@ -8,6 +8,7 @@
 - 逐帧计算叶片角度并加入运动模糊，转动不再一卡一卡 ([#5](https://github.com/ElpsyCN/electric-fan/issues/5))
 - 自然风模式 ([#7](https://github.com/ElpsyCN/electric-fan/issues/7))，Yun Home 插件同步支持
 - 摇头由电机齿轮带动，关机后停在原位；新增风力表与键盘快捷键
+- 页脚改为可折叠的「使用说明书」：部件说明、常见问题、安全须知、售后服务与保修卡
 - 风声改用 Web Audio 无缝循环，音量与音调随转速变化；风流粒子随摇头方向飘散
 
 ## 2019-02-19

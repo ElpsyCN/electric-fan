@@ -7,36 +7,6 @@
   }
 }
 
-// Round keycap, used by the sponsor link in the footer.
-.fan-btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  border-radius: 50%;
-  border: 2px solid var(--fan-color);
-  border-bottom-width: 0.25rem;
-  background: var(--fan-bg-color);
-  color: var(--fan-color);
-  text-decoration: none;
-  transition: transform 0.12s, border-bottom-width 0.12s, background-color 0.2s;
-  @include focus-ring;
-
-  &:hover { background-color: var(--line); }
-
-  &:active {
-    transform: translateY(0.2rem);
-    border-bottom-width: 2px;
-  }
-}
-
-.fan-sponsor {
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 0.9rem;
-  opacity: 0.86;
-}
-
 // --- Status -------------------------------------------------------------------
 
 .status {
