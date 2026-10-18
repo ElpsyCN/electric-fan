@@ -63,6 +63,11 @@ export function unlockAudio() {
   return loading
 }
 
+/** The shared audio context, once {@link unlockAudio} has created it. */
+export function audioContext() {
+  return context
+}
+
 /** Play the switch click. */
 export function playClick() {
   if (!context || !clickBuffer || isMuted)

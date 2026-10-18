@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FanLevel } from '@yunlefun-home/electric-fan/core'
 import { fanSummary, fanTimerMinutesLeft } from '@yunlefun-home/electric-fan/core'
-import { operate } from '~/composables'
+import { operate, startVoice, stopVoice, voiceLevel } from '~/composables'
 import { expireTimer, fanState, windRatio } from '~/stores'
 
 const METER_BARS = 12
@@ -24,7 +24,43 @@ useIntervalFn(() => {
 }, 1000)
 watch(() => fanState.value.autoOffAt, () => now.value = Date.now())
 
-// Keyboard: 0–3 speed, O 摇头, N 自然风, T 定时.
+// Talk into the fan: the mic warbles through the blades.
+const talking = shallowRef(false)
+const micError = shallowRef('')
+const micButton = useTemplateRef<HTMLButtonElement>('micButton')
+let levelFrame = 0
+
+function showLevel() {
+  micButton.value?.style.setProperty('--voice', String(Math.round(voiceLevel() * 100) / 100))
+  levelFrame = requestAnimationFrame(showLevel)
+}
+
+async function toggleVoice() {
+  micError.value = ''
+  if (talking.value) {
+    stopVoice()
+    talking.value = false
+    cancelAnimationFrame(levelFrame)
+    micButton.value?.style.setProperty('--voice', '0')
+    return
+  }
+  try {
+    await startVoice()
+    talking.value = true
+    showLevel()
+  }
+  catch {
+    stopVoice()
+    micError.value = '没有拿到麦克风权限'
+  }
+}
+
+onBeforeUnmount(() => {
+  cancelAnimationFrame(levelFrame)
+  stopVoice()
+})
+
+// Keyboard: 0–3 speed, O 摇头, N 自然风, T 定时, V 对风扇说话.
 useEventListener('keydown', (event: KeyboardEvent) => {
   if (event.metaKey || event.ctrlKey || event.altKey || event.repeat)
     return
@@ -39,6 +75,8 @@ useEventListener('keydown', (event: KeyboardEvent) => {
     operate({ type: 'toggle-natural' })
   else if (key === 't')
     operate('cycle-timer')
+  else if (key === 'v')
+    void toggleVoice()
 })
 </script>
 
@@ -54,6 +92,19 @@ useEventListener('keydown', (event: KeyboardEvent) => {
         :style="{ height: `${30 + index * 70 / METER_BARS}%` }"
       />
     </span>
+    <button
+      ref="micButton"
+      class="mic"
+      type="button"
+      :aria-pressed="talking"
+      :title="talking ? '停止说话（V）' : '对着风扇说话（V）：开风扇后说「啊——」，建议戴耳机'"
+      @click="toggleVoice"
+    >
+      <i-carbon-microphone v-if="talking" aria-hidden="true" />
+      <i-carbon-microphone-off v-else aria-hidden="true" />
+      {{ talking ? '说「啊——」' : '对风扇说话' }}
+    </button>
+    <span v-if="micError" class="status__error" role="alert">{{ micError }}</span>
     <span v-if="remaining" class="status__timer">
       <i-carbon-timer aria-hidden="true" />
       <span class="sr-only">定时剩余</span>{{ remaining }}
