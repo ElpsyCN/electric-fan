@@ -1,6 +1,6 @@
 # electric-fan
 
-> [Electric Fan](https://fan.elpsy.cn)
+> [Electric Fan](https://fan.yunle.fun)
 
 [未来道具研究所](https://elpsy.cn)
 
@@ -8,7 +8,7 @@
 
 电风扇！ 为你的夏日带去清凉！
 
-- [Web Demo](https://fan.elpsy.cn)
+- [Web Demo](https://fan.yunle.fun)（备用：[fan.elpsy.cn](https://fan.elpsy.cn)）
 
 ## Feature
 
