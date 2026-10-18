@@ -42,36 +42,10 @@
   to { transform: translate(calc(var(--wind, 0) * 3px), calc(var(--wind, 0) * -4px)) rotate(calc(var(--wind, 0) * 9deg)); }
 }
 
-.shortcuts {
-  margin: 1.25rem 0 0;
-  font-size: 0.75rem;
-  color: var(--muted);
-
-  kbd {
-    display: inline-block;
-    min-width: 1.4em;
-    padding: 0 0.3em;
-    border: 1px solid var(--line);
-    border-bottom-width: 2px;
-    border-radius: 0.3em;
-    font-family: ui-monospace, monospace;
-    font-size: 0.95em;
-    line-height: 1.5;
-  }
-}
-
-@media (hover: none) {
-  .shortcuts { display: none; }
-}
-
 .fade-enter-active,
 .fade-leave-active { transition: opacity 0.3s; }
 .fade-enter-from,
 .fade-leave-to { opacity: 0; }
-
-.animate-logo {
-  animation: iconAnimate 1.5s ease-in-out infinite;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .headline__sub span { animation: none; }

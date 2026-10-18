@@ -26,9 +26,6 @@ importers:
       vue:
         specifier: ^3.5.38
         version: 3.5.38(typescript@6.0.3)
-      vue-about-me:
-        specifier: ^1.4.0
-        version: 1.4.0(typescript@6.0.3)
       vue-i18n:
         specifier: ^11.4.5
         version: 11.4.5(vue@3.5.38(typescript@6.0.3))
@@ -42,6 +39,9 @@ importers:
       '@iconify-json/carbon':
         specifier: ^1.2.23
         version: 1.2.23
+      '@iconify-json/ri':
+        specifier: ^1.2.10
+        version: 1.2.10
       '@intlify/unplugin-vue-i18n':
         specifier: ^11.2.3
         version: 11.2.3(@vue/compiler-dom@3.5.38)(eslint@10.5.0(jiti@2.7.0))(rollup@4.62.0)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(jiti@2.7.0)(sass@1.101.0)(terser@5.48.0)(yaml@2.9.0))(vue-i18n@11.4.5(vue@3.5.38(typescript@6.0.3)))(vue@3.5.38(typescript@6.0.3))
@@ -1081,6 +1081,9 @@ packages:
 
   '@iconify-json/carbon@1.2.23':
     resolution: {integrity: sha512-7apXetbRmEiWDXIQyikFJZyq7pCVBKHYRzmeLdtT7wWoHYdWHwnFcBAzpuLoSh+ZEAfXZapSWEe8iuS6dUqf+Q==}
+
+  '@iconify-json/ri@1.2.10':
+    resolution: {integrity: sha512-WWMhoncVVM+Xmu9T5fgu2lhYRrKTEWhKk3Com0KiM111EeEsRLiASjpsFKnC/SrB6covhUp95r2mH8tGxhgd5Q==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -4931,9 +4934,6 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
-  vue-about-me@1.4.0:
-    resolution: {integrity: sha512-wIRy1g+ptSiL5jpg30YDXGGGae2O/ZxGBwGh8D0kvI5dWPZvLMuGKDlKZk8fDIXHTAVXUu3dyfzl1ZoHJ26BQA==}
-
   vue-eslint-parser@10.4.1:
     resolution: {integrity: sha512-Gk6gRDj0n/fkRa3C3l0bBheoBckUq/Rs0F/TvMWIS6nzzx67amAViMe9CkNgsP2tXyQONvGiHQESHwFtZ3aYDA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -6162,6 +6162,10 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@iconify-json/carbon@1.2.23':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/ri@1.2.10':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -10183,13 +10187,6 @@ snapshots:
       - msw
 
   vscode-uri@3.1.0: {}
-
-  vue-about-me@1.4.0(typescript@6.0.3):
-    dependencies:
-      sass: 1.101.0
-      vue: 3.5.38(typescript@6.0.3)
-    transitivePeerDependencies:
-      - typescript
 
   vue-eslint-parser@10.4.1(eslint@10.5.0(jiti@2.7.0)):
     dependencies:
