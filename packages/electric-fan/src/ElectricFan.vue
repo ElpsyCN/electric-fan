@@ -5,7 +5,8 @@
  * coast down against drag, gust in natural mode, and the head sweeps on the
  * motor's gear. With `controls`, the fan is operated like the real thing:
  * piano keys on the base, a timer dial beside them and an oscillation knob on
- * top of the motor, each emitting an `action` for the host to apply.
+ * top of the motor, each emitting an `action` for the host to apply. With
+ * `ribbons`, paper streamers on the grille show the wind.
  * Theme with `--fan-color`, `--fan-bg-color` and `--fan-accent` on any ancestor.
  *
  * @example
@@ -38,6 +39,8 @@ const props = withDefaults(defineProps<{
   controls?: boolean
   /** Let pointer drags orbit the camera */
   orbit?: boolean
+  /** Tie paper ribbons to the grille that stream in the wind */
+  ribbons?: boolean
   /** Accessible name */
   title?: string
 }>(), {
@@ -47,6 +50,7 @@ const props = withDefaults(defineProps<{
   autoOffAt: null,
   controls: false,
   orbit: true,
+  ribbons: false,
   title: '',
 })
 
@@ -167,6 +171,21 @@ const scene = {
   }),
   badge: box(CENTER, CENTER, DOME.topZ + 0.5, 30, 30),
 }
+
+// --- Ribbons -----------------------------------------------------------------
+// Paper streamers tied to the front grille. They hang straight down while the
+// fan is off and stream toward the viewer, fluttering, as the wind picks up.
+// Each is a chain of short segments placed by forward kinematics every frame.
+const RIBBON = { segments: 7, length: 10, width: 7, radius: 104 }
+const ribbonAnchors = [
+  { angle: -38, color: '#22d3ee', seed: 0 },
+  { angle: 8, color: '#f472b6', seed: 2.1 },
+  { angle: 52, color: '#facc15', seed: 4.3 },
+].map(({ angle, color, seed }) => {
+  const rad = (angle * Math.PI) / 180
+  return { x: CENTER + Math.sin(rad) * RIBBON.radius, y: CENTER - Math.cos(rad) * RIBBON.radius, z: domeZ(RIBBON.radius) + 1, color, seed }
+})
+const ribbonSegment = { width: u(RIBBON.width), height: u(RIBBON.length + 0.6) }
 
 // --- Controls ----------------------------------------------------------------
 // Piano keys along the front edge of the base: 关 springs back, 1–3 latch
@@ -307,6 +326,7 @@ const head = useTemplateRef<HTMLDivElement>('head')
 const spinner = useTemplateRef<HTMLDivElement>('spinner')
 const ghost = useTemplateRef<HTMLDivElement>('ghost')
 const blur = useTemplateRef<HTMLDivElement>('blur')
+const ribbonLayer = useTemplateRef<HTMLDivElement>('ribbonLayer')
 
 const running = computed(() => props.level > 0)
 let motor = createFanMotor()
@@ -314,8 +334,34 @@ let frame = 0
 let lastTime = 0
 let reducedMotion = false
 
-function render() {
+function renderRibbons(time: number, ratio: number) {
+  const segments = ribbonLayer.value?.children
+  if (!segments)
+    return
+  const calm = reducedMotion ? 0 : ratio
+  // Full wind lifts them to ~77°: almost level, still sagging a little.
+  const lift = 1.35 * calm ** 0.7
+  const flutter = 0.1 + 0.3 * calm
+  const pace = 9 + 22 * calm
+  ribbonAnchors.forEach((anchor, r) => {
+    let { x, y, z } = anchor
+    for (let i = 0; i < RIBBON.segments; i++) {
+      // The tail whips more than the knot.
+      const wave = calm && flutter * (0.3 + 0.12 * i) * Math.sin(time * pace - i * 0.9 + anchor.seed)
+      const angle = lift * (1 - 0.05 * i) + wave
+      const segment = segments[r * RIBBON.segments + i] as HTMLElement | undefined
+      if (segment)
+        segment.style.transform = `translate3d(${u(x - RIBBON.width / 2)}, ${u(y)}, ${u(z)}) rotateX(${round(angle)}rad)`
+      y += RIBBON.length * Math.cos(angle)
+      z += RIBBON.length * Math.sin(angle)
+      x += calm * 1.2 * Math.sin(time * pace * 0.5 + i * 0.7 + anchor.seed)
+    }
+  })
+}
+
+function render(time = performance.now() / 1000) {
   const ratio = fanMotorRatio(motor)
+  renderRibbons(time, ratio)
   const angle = reducedMotion ? 0 : motor.angle
   // Motion blur: a trailing copy a few degrees behind, fading in with speed.
   const lag = reducedMotion ? 0 : Math.min(16, motor.speed * 4)
@@ -335,7 +381,7 @@ function tick(time: number) {
   const dt = lastTime ? (time - lastTime) / 1000 : 0
   lastTime = time
   motor = stepFanMotor(motor, { level: props.level, oscillating: props.oscillating, natural: props.natural, time: time / 1000 }, dt)
-  render()
+  render(time / 1000)
   emit('motor', { ...motor, ratio: fanMotorRatio(motor), facing: motor.yaw + cameraOrbit.value })
   if (isFanMotorAtRest(motor, props.level)) {
     frame = 0
@@ -479,6 +525,12 @@ onBeforeUnmount(() => {
           <div v-for="(style, index) in scene.domeSpokes" :key="`spoke${index}`" class="ef3d__spoke" :style="style" />
           <div v-for="(style, index) in scene.domeRings" :key="`dome${index}`" class="ef3d__ring" :style="style" />
           <div class="ef3d__badge" :style="scene.badge" />
+
+          <div v-if="ribbons" ref="ribbonLayer" class="ef3d__ribbons">
+            <template v-for="(anchor, r) in ribbonAnchors" :key="r">
+              <div v-for="i in RIBBON.segments" :key="i" class="ef3d__ribbon" :style="{ ...ribbonSegment, backgroundColor: anchor.color }" />
+            </template>
+          </div>
         </div>
       </div>
     </div>

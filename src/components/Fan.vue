@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FanMotorFrame } from '@yunlefun-home/electric-fan'
 import { ElectricFan } from '@yunlefun-home/electric-fan'
-import { operate, setHumLevel } from '~/composables'
+import { operate, setHumLevel, setVoiceWind } from '~/composables'
 import { fanState, level, motorFrame, windRatio } from '~/stores'
 import '@yunlefun-home/electric-fan/style.css'
 
@@ -20,6 +20,7 @@ function onMotor(frame: FanMotorFrame) {
     sampledAt = now
     windRatio.value = Math.round(frame.ratio * 1000) / 1000
     setHumLevel(frame.ratio)
+    setVoiceWind(frame.ratio)
   }
 }
 </script>
@@ -34,6 +35,7 @@ function onMotor(frame: FanMotorFrame) {
         :natural="fanState.natural"
         :auto-off-at="fanState.autoOffAt"
         controls
+        ribbons
         title="电风扇"
         @action="operate"
         @motor="onMotor"
